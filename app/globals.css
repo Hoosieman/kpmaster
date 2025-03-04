@@ -43,7 +43,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   height: 100%;
-  overflow: auto;
+  overflow-y: visible; /* Changed from auto to visible */
 }
 
 body {
@@ -53,7 +53,8 @@ body {
   background-color: var(--light);
   overflow-x: hidden;
   height: 100%;
-  overflow: auto;
+  overflow-y: visible; /* Changed from auto to visible */
+  position: relative; /* Added for proper stacking context */
 }
 
 img {
@@ -98,16 +99,23 @@ p {
 
 .section {
   padding: 5rem 0;
+  contain: content; /* Added for scroll performance */
 }
 
 .section-sm {
   padding: 4rem 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero2.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed to scroll */
   opacity: 0; /* Initial opacity set to 0 */
   animation: fadeIn 2s ease-in-out forwards;
+}
+
+@media (min-width: 992px) {
+  .section-sm {
+    background-attachment: fixed; /* Only use fixed on desktop */
+  }
 }
 
 @keyframes fadeIn {
@@ -333,8 +341,6 @@ p {
   top: 9px;
 }
 
-
-
 /* Loading Screen Styles */
 .loading-screen {
   position: fixed;
@@ -390,11 +396,19 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero1.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
+  opacity: 1; /* Changed from 0 to 1 */
+  transition: background-image 0.5s ease-in; /* Only transition the background */
+}
+
+@media (min-width: 992px) {
+  .hero {
+    background-attachment: fixed; /* Only use fixed on desktop */
+  }
 }
 
 .hero-content {
@@ -419,7 +433,8 @@ p {
   object-fit: contain;
   opacity: 0;
   animation: fadeIn 1s forwards, scaleUp 1s ease-out forwards;
-  will-change: opacity;
+  will-change: transform, opacity; /* Added for performance */
+  backface-visibility: hidden; /* Added for performance */
 }
 
 /* Fade-in animation */
@@ -529,24 +544,22 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/stock/hero1.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
   text-align: center;
-  opacity: 0; /* Start with it hidden */
-  animation: fadeIn 2s forwards;
+  opacity: 1; /* Changed from 0 to 1 */
+  transition: background-image 0.5s ease-in; /* Only transition the background */
 }
 
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
+@media (min-width: 992px) {
+  .hero-linecard {
+    background-attachment: fixed; /* Only use fixed on desktop */
   }
 }
+
 .hero-linecard-content {
   max-width: 800px;
   padding: 0 2rem;
@@ -602,12 +615,14 @@ p {
 .features {
   background-color: var(--gray-100);
   margin-bottom: -10px;
+  contain: content; /* Added for scroll performance */
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  contain: content; /* Added for scroll performance */
 }
 
 .feature-card {
@@ -668,24 +683,20 @@ p {
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 1, 2, 0.85)), url("/stock/hero2.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed to scroll */
   color: #e0e0e0;
   padding: 4rem 2rem;
   border-radius: 60px;
-  opacity: 0; /* Start with it hidden */
-  animation: fadeIn 2s forwards;
+  opacity: 1; /* Changed from 0 to 1 */
+  transition: background-image 0.5s ease-in; /* Only transition the background */
 }
 
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
+@media (min-width: 992px) {
+  .about-content {
+    background-attachment: fixed; /* Only use fixed on desktop */
   }
 }
 
@@ -760,6 +771,7 @@ p {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   padding-top: 10px;
+  contain: content; /* Added for scroll performance */
 }
 
 .service-card {
@@ -809,6 +821,7 @@ p {
 /* Manufacturer Section */
 .manufacturer-section {
   padding: 5rem 0;
+  contain: content; /* Added for scroll performance */
 }
 
 .manufacturer-category {
@@ -821,6 +834,7 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
+  contain: content; /* Added for scroll performance */
 }
 
 .manufacturer-item {
@@ -895,9 +909,15 @@ p {
   background: linear-gradient(rgba(178, 34, 34, 0.9), rgba(178, 34, 34, 0.9)), url("/images/cta-bg.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
   text-align: center;
+}
+
+@media (min-width: 992px) {
+  .cta {
+    background-attachment: fixed; /* Only use fixed on desktop */
+  }
 }
 
 .cta-title {
@@ -914,16 +934,12 @@ p {
   margin-right: auto;
 }
 
-
-
 .contact-info {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   justify-content: center;
 }
-
-
 
 .contact-icon {
   width: 50px;
@@ -946,17 +962,17 @@ p {
 
 /* Make the map container responsive */
 .map-container {
-  position: relative;  /* Ensure the iframe stays within the container bounds */
-  width: 100%;         /* Full width for responsiveness */
-  max-width: 900px;    /* Limit the maximum width of the map container on desktop */
-  margin: 0 auto;  
-  border: 5px solid rgb(139, 36, 36);     /* Center the map container horizontally */
+  position: relative; /* Ensure the iframe stays within the container bounds */
+  width: 100%; /* Full width for responsiveness */
+  max-width: 900px; /* Limit the maximum width of the map container on desktop */
+  margin: 0 auto;
+  border: 5px solid rgb(139, 36, 36); /* Center the map container horizontally */
 }
 
 .map-container iframe {
-  width: 100%;         /* Ensure the map scales to fit the container */
-  height: 450px;       /* Set a default height for larger screens */
-  max-width: 100%;     /* Prevent overflow on mobile */
+  width: 100%; /* Ensure the map scales to fit the container */
+  height: 450px; /* Set a default height for larger screens */
+  max-width: 100%; /* Prevent overflow on mobile */
   border: 0;
 }
 
@@ -964,37 +980,33 @@ p {
 @media (min-width: 1024px) {
   .map-container iframe {
     height: 400px;
-      /* Adjust the height for desktop */
+    /* Adjust the height for desktop */
   }
 
   .map-container {
-    height: 400px; 
-    position: relative;  /* Ensure the iframe stays within the container bounds */
-    width: 100%;         /* Full width for responsiveness */
-    max-width: 400px;    /* Limit the maximum width of the map container on desktop */
-    margin: 0;           /* Remove the auto margin for centering */
-    margin-left: 20px;   /* Push the container 20px to the left */
+    height: 400px;
+    position: relative; /* Ensure the iframe stays within the container bounds */
+    width: 100%; /* Full width for responsiveness */
+    max-width: 400px; /* Limit the maximum width of the map container on desktop */
+    margin: 0; /* Remove the auto margin for centering */
+    margin-left: 20px; /* Push the container 20px to the left */
     border: 5px solid rgb(139, 36, 36); /* Add a red border */
-     /* Add a border radius */
+    /* Add a border radius */
   }
 }
-
-
 
 /* Handle smaller screen sizes */
 @media (max-width: 768px) {
   .map-container iframe {
-    height: 300px;  /* Adjust the height for smaller screens */
+    height: 300px; /* Adjust the height for smaller screens */
   }
 }
-
 
 /* Ensure contact form and other elements fit on smaller screens */
 .contact-content {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  
 }
 
 .contact-info {
@@ -1038,7 +1050,6 @@ p {
   .contact-info {
     margin-bottom: 20px;
     justify-content: center;
-    
   }
 
   .map-container iframe {
@@ -1066,9 +1077,6 @@ p {
     flex-direction: column;
     align-items: flex-start;
   }
-
-
-  
 
   .contact-text p {
     font-size: 13px;
@@ -1208,7 +1216,6 @@ textarea.form-control {
 
   .section-sm {
     padding: 3rem 0;
-    
   }
 
   .about-content {
@@ -1363,9 +1370,6 @@ textarea.form-control {
   will-change: opacity;
 }
 
-
-
-
 /* Modal Overlay */
 .modal-overlay {
   position: fixed;
@@ -1380,6 +1384,7 @@ textarea.form-control {
   z-index: 999;
   opacity: 0;
   animation: fadeInOverlay 0.3s forwards;
+  overscroll-behavior: contain; /* Added for scroll performance */
 }
 
 /* Modal Content */
@@ -1393,6 +1398,7 @@ textarea.form-control {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
   animation: fadeInContent 0.5s forwards;
+  overscroll-behavior: contain; /* Added for scroll performance */
 }
 
 /* Close Button */
@@ -1431,7 +1437,6 @@ textarea.form-control {
   }
 }
 
-
 .agdasima-regular {
   font-family: "Agdasima", sans-serif;
   font-weight: 400;
@@ -1443,3 +1448,56 @@ textarea.form-control {
   font-weight: 700;
   font-style: normal;
 }
+
+/* Hero Background Transition */
+.hero-loaded {
+  /* No opacity change needed */
+}
+
+/* Loading Screen Styles */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary, #1a365d);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  color: white;
+  max-width: 80%;
+}
+
+.loading-logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+}
+
+.loading-progress-container {
+  width: 100%;
+  max-width: 300px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+}
+
+.loading-progress-bar {
+  height: 100%;
+  background-color: white;
+  transition: width 0.3s ease-out;
+}
+
+.loading-text {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+

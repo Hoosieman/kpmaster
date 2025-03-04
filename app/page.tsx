@@ -41,17 +41,17 @@ export default function Home() {
         "/logo/PP2.png",
         "/logo/text2.png",
         // Use Next.js Image Optimization for external images
-        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070",
-        "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070",
-        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070",
-        "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070",
-        "https://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg",
-        "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg",
+        "/stock/chip.jpeg",
+        "/stock/growth.jpeg",
+        "/stock/hero1.jpg",
+        "/stock/hero2.jpg",
+        "/stock/lab.jpeg",
+        "/stock/tech.jpeg",
       ]
 
       // Add your hero background image to the preload list
       // Replace with the actual URL of your hero background image
-      const heroBackgroundUrl = "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg" // Update this with your actual background image URL
+      const heroBackgroundUrl = "/stock/hero1.jpg" // Update this with your actual background image URL
       imageSources.push(heroBackgroundUrl)
 
       totalImages.current = imageSources.length
@@ -258,7 +258,7 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070"
+                  src="/stock/growth.jpeg"
                   alt="Equipment Sales"
                   width={600}
                   height={400}
@@ -279,7 +279,7 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070"
+                  src="/stock/tech.jpeg"
                   alt="Technical Support"
                   width={600}
                   height={400}
@@ -300,7 +300,7 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070"
+                  src="/stock/chip.jpeg"
                   alt="Engineering Solutions"
                   width={600}
                   height={400}

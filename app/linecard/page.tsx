@@ -46,6 +46,7 @@ export default function LineCard() {
         "/logo/PP1.png",
         "/logo/PP2.png",
         "/logo/text2.png",
+        "/stock/hero1.jpg",
       ]
 
       // Add manufacturer logos to preload
@@ -54,7 +55,7 @@ export default function LineCard() {
       })
 
       // Add hero background image
-      const heroBackgroundUrl = "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg" // Update with your actual background image URL
+      const heroBackgroundUrl = "/stock/hero1.jpg" // Update with your actual background image URL
       imageSources.push(heroBackgroundUrl)
 
       totalImages.current = imageSources.length
