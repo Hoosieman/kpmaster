@@ -4,56 +4,51 @@ import { useEffect } from "react"
 
 export default function AnimationScript() {
   useEffect(() => {
-    // Animation for logo parts
     const images = document.querySelectorAll(".part")
     let animationsCompleted = 0
 
-    // Function to keep the animation displayed after it finishes
     function keepAnimationDisplayed() {
-      // No need to fade out, just keep everything visible
-      document.body.style.opacity = "1" // Ensure the page stays visible
+      document.body.style.opacity = "1"
     }
 
-    // Loop through each image and listen for the animation end event
+    function handleAnimationEnd() {
+      animationsCompleted++
+      if (animationsCompleted === images.length) {
+        setTimeout(keepAnimationDisplayed, 600)
+      }
+    }
+
     images.forEach((image) => {
-      image.addEventListener("animationend", () => {
-        animationsCompleted++
-        if (animationsCompleted === images.length) {
-          // All images have finished their animations, keep the animation visible
-          setTimeout(keepAnimationDisplayed, 600) // Optionally add a small delay before applying changes
-        }
-      })
+      image.addEventListener("animationend", handleAnimationEnd)
     })
 
-    // Smooth scroll for anchor links
     const scrollLinks = document.querySelectorAll(".scroll-down, .scroll-indicator")
-    scrollLinks.forEach((link) => {
-      link.addEventListener("click", (e) => {
-        e.preventDefault()
-        const href = link.getAttribute("href")
-        if (href) {
-          const targetElement = document.querySelector(href)
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: "smooth",
-            })
-          }
+
+    function handleScrollClick(e) {
+      e.preventDefault()
+      const href = e.currentTarget.getAttribute("href")
+      if (href) {
+        const targetElement = document.querySelector(href)
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: "smooth" })
         }
-      })
+      }
+    }
+
+    scrollLinks.forEach((link) => {
+      link.addEventListener("click", handleScrollClick)
     })
 
     return () => {
-      // Clean up event listeners
       images.forEach((image) => {
-        image.removeEventListener("animationend", () => {})
+        image.removeEventListener("animationend", handleAnimationEnd)
       })
 
       scrollLinks.forEach((link) => {
-        link.removeEventListener("click", () => {})
+        link.removeEventListener("click", handleScrollClick)
       })
     }
   }, [])
 
   return null
 }
-
