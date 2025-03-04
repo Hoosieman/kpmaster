@@ -1,138 +1,24 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronDown } from 'lucide-react'
-import LoadingScreen from "../components/LoadingScreen"
+import { ChevronDown } from "lucide-react"
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(() => {
-    // Always show loading screen initially to ensure proper image loading
-    return true
-  })
-  const [logoAnimationStarted, setLogoAnimationStarted] = useState(false)
-  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
-
-  // Track if all images have loaded
-  const imagesLoaded = useRef(0)
-  const totalImages = useRef(0)
-
-  useEffect(() => {
-    // If we're not showing the loading screen, start logo animation immediately
-    if (!isLoading) {
-      setLogoAnimationStarted(true)
-      return
-    }
-
-    // Mark that user has visited the home page
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("hasVisitedHome", "true")
-    }
-
-    // Preload all images first
-    const preloadImages = async () => {
-      // Get all image sources from the page
-      const imageSources = [
-        "/logo/K1.png",
-        "/logo/K2.png",
-        "/logo/and2.png",
-        "/logo/PP1.png",
-        "/logo/PP2.png",
-        "/logo/text2.png",
-        // Use Next.js Image Optimization for external images
-        "/stock/chip.jpeg",
-        "/stock/growth.jpeg",
-        "/stock/hero1.jpg",
-        "/stock/hero2.jpg",
-        "/stock/lab.jpeg",
-        "/stock/tech.jpeg",
-      ]
-
-      // Add your hero background image to the preload list
-      // Replace with the actual URL of your hero background image
-      const heroBackgroundUrl = "/stock/hero1.jpg" // Update this with your actual background image URL
-      imageSources.push(heroBackgroundUrl)
-
-      totalImages.current = imageSources.length
-
-      // Preload each image
-      const preloadPromises = imageSources.map((src) => {
-        return new Promise((resolve) => {
-          const img = new window.Image()
-
-          // Set crossOrigin for external images to avoid CORS issues
-          img.crossOrigin = "anonymous"
-          img.src = src
-
-          // Special handling for hero background
-          if (src === heroBackgroundUrl) {
-            img.onload = () => {
-              setBackgroundLoaded(true)
-              imagesLoaded.current++
-              resolve(true)
-            }
-          } else {
-            img.onload = () => {
-              imagesLoaded.current++
-              resolve(true)
-            }
-          }
-
-          img.onerror = () => {
-            console.error(`Failed to load image: ${src}`)
-            if (src === heroBackgroundUrl) {
-              // Even if background fails, mark it as loaded to continue
-              setBackgroundLoaded(true)
-            }
-            imagesLoaded.current++
-            resolve(false)
-          }
-        })
-      })
-
-      try {
-        // Wait for all images to preload
-        await Promise.all(preloadPromises)
-        console.log(`Loaded ${imagesLoaded.current} of ${totalImages.current} images`)
-      } catch (error) {
-        console.error("Error preloading images:", error)
-      }
-
-      // Hide loading screen and start logo animation
-      setIsLoading(false)
-      setLogoAnimationStarted(true)
-    }
-
-    preloadImages()
-
-    // Fallback: hide loading screen after 8 seconds regardless
-    // Increased from 5 to 8 seconds to give more time for background loading
-    const timeout = setTimeout(() => {
-      console.log("Fallback timeout triggered - forcing load completion")
-      setBackgroundLoaded(true)
-      setIsLoading(false)
-      setLogoAnimationStarted(true)
-    }, 8000)
-
-    return () => clearTimeout(timeout)
-  }, [isLoading])
-
-  // If still loading, show loading screen
-  if (isLoading) {
-    return <LoadingScreen progress={(imagesLoaded.current / totalImages.current) * 100} />
-  }
+  // Logo animation starts immediately
+  const [logoAnimationStarted] = useState(true)
 
   return (
     <main>
       {/* Hero Section */}
-      <section className={`hero ${backgroundLoaded ? 'hero-loaded' : ''}`}>
+      <section className="hero hero-loaded">
         <div className="container">
           <div className="hero-content">
             <div className="containers">
               <Image
                 id="part1"
-                className={`part ${logoAnimationStarted ? "animate-part1" : "hidden-part"}`}
+                className={`part animate-part1`}
                 src="/logo/K1.png"
                 alt="K"
                 width={800}
@@ -141,7 +27,7 @@ export default function Home() {
               />
               <Image
                 id="part2"
-                className={`part ${logoAnimationStarted ? "animate-part2" : "hidden-part"}`}
+                className={`part animate-part2`}
                 src="/logo/K2.png"
                 alt="K"
                 width={800}
@@ -150,7 +36,7 @@ export default function Home() {
               />
               <Image
                 id="part3"
-                className={`part ${logoAnimationStarted ? "animate-part3" : "hidden-part"}`}
+                className={`part animate-part3`}
                 src="/logo/and2.png"
                 alt="&"
                 width={800}
@@ -159,7 +45,7 @@ export default function Home() {
               />
               <Image
                 id="part4"
-                className={`part ${logoAnimationStarted ? "animate-part4" : "hidden-part"}`}
+                className={`part animate-part4`}
                 src="/logo/PP1.png"
                 alt="P"
                 width={800}
@@ -168,7 +54,7 @@ export default function Home() {
               />
               <Image
                 id="part5"
-                className={`part ${logoAnimationStarted ? "animate-part5" : "hidden-part"}`}
+                className={`part animate-part5`}
                 src="/logo/PP2.png"
                 alt="P"
                 width={800}
@@ -177,7 +63,7 @@ export default function Home() {
               />
               <Image
                 id="part6"
-                className={`part ${logoAnimationStarted ? "animate-part6" : "hidden-part"}`}
+                className={`part animate-part6`}
                 src="/logo/text2.png"
                 alt="Sales Engineers"
                 width={800}
@@ -185,7 +71,7 @@ export default function Home() {
                 priority={true}
               />
             </div>
-            <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "hidden-cta"}`}>
+            <div className={`hero-cta animate-cta`}>
               <Link href="#features" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
@@ -258,12 +144,11 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="/stock/growth.jpeg"
+                  src="/stock/growth.jpg"
                   alt="Equipment Sales"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
-                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -279,12 +164,11 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="/stock/tech.jpeg"
+                  src="/stock/tech.jpg"
                   alt="Technical Support"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
-                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -300,12 +184,11 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="/stock/chip.jpeg"
+                  src="/stock/chip.jpg"
                   alt="Engineering Solutions"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
-                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -338,3 +221,4 @@ export default function Home() {
     </main>
   )
 }
+

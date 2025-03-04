@@ -1,20 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
-import LoadingScreen from "../../components/LoadingScreen"
 
 export default function LineCard() {
-  // Loading state management - ADDED
-  const [isLoading, setIsLoading] = useState(true)
-  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
-
-  // Track if all images have loaded - ADDED
-  const imagesLoaded = useRef(0)
-  const totalImages = useRef(0)
-
   // State for modal visibility and selected manufacturer's data - EXISTING
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalContent, setModalContent] = useState<string[] | null>(null)
@@ -33,91 +24,6 @@ export default function LineCard() {
     Sweco: ["Product 1", "Product 2"],
     thermo: ["Product X", "Product Y"],
   }
-
-  // Preload images on component mount - ADDED
-  useEffect(() => {
-    // Preload all images first
-    const preloadImages = async () => {
-      // Get all image sources from the page
-      const imageSources = [
-        "/logo/K1.png",
-        "/logo/K2.png",
-        "/logo/and2.png",
-        "/logo/PP1.png",
-        "/logo/PP2.png",
-        "/logo/text2.png",
-        "/stock/hero1.jpg",
-      ]
-
-      // Add manufacturer logos to preload
-      Object.keys(manufacturerData).forEach((manufacturer) => {
-        imageSources.push(`/images/${manufacturer.toLowerCase()}.png`)
-      })
-
-      // Add hero background image
-      const heroBackgroundUrl = "/stock/hero1.jpg" // Update with your actual background image URL
-      imageSources.push(heroBackgroundUrl)
-
-      totalImages.current = imageSources.length
-
-      // Preload each image
-      const preloadPromises = imageSources.map((src) => {
-        return new Promise((resolve) => {
-          const img = new window.Image()
-
-          // Set crossOrigin for external images to avoid CORS issues
-          img.crossOrigin = "anonymous"
-          img.src = src
-
-          // Special handling for hero background
-          if (src === heroBackgroundUrl) {
-            img.onload = () => {
-              setBackgroundLoaded(true)
-              imagesLoaded.current++
-              resolve(true)
-            }
-          } else {
-            img.onload = () => {
-              imagesLoaded.current++
-              resolve(true)
-            }
-          }
-
-          img.onerror = () => {
-            console.error(`Failed to load image: ${src}`)
-            if (src === heroBackgroundUrl) {
-              // Even if background fails, mark it as loaded to continue
-              setBackgroundLoaded(true)
-            }
-            imagesLoaded.current++
-            resolve(false)
-          }
-        })
-      })
-
-      try {
-        // Wait for all images to preload
-        await Promise.all(preloadPromises)
-        console.log(`Loaded ${imagesLoaded.current} of ${totalImages.current} images`)
-      } catch (error) {
-        console.error("Error preloading images:", error)
-      }
-
-      // Hide loading screen
-      setIsLoading(false)
-    }
-
-    preloadImages()
-
-    // Fallback: hide loading screen after 8 seconds regardless
-    const timeout = setTimeout(() => {
-      console.log("Fallback timeout triggered - forcing load completion")
-      setBackgroundLoaded(true)
-      setIsLoading(false)
-    }, 8000)
-
-    return () => clearTimeout(timeout)
-  }, [])
 
   // Open modal with specific manufacturer's products - EXISTING
   const openModal = (manufacturer: string) => {
@@ -150,44 +56,20 @@ export default function LineCard() {
     window.scrollTo(0, Number.parseInt(scrollY || "0") * -1)
   }
 
-  // If still loading, show loading screen - ADDED
-  if (isLoading) {
-    return <LoadingScreen progress={(imagesLoaded.current / totalImages.current) * 100} />
-  }
-
   return (
     <main>
       {/* Google Fonts Link - EXISTING */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap"
-        rel="stylesheet"
-      />
+      <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet" />
 
       {/* Hero Section - MODIFIED to add backgroundLoaded class */}
-      <section className={`hero ${backgroundLoaded ? 'hero-loaded' : ''}`}>
+      <section className="hero">
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              <Image
-                id="part1"
-                className="part"
-                src="/logo/K1.png"
-                alt="K"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image
-                id="part2"
-                className="part"
-                src="/logo/K2.png"
-                alt="K"
-                width={800}
-                height={600}
-                priority={true}
-              />
+              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
+              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
               <Image
                 id="part3"
                 className="part"
@@ -197,24 +79,8 @@ export default function LineCard() {
                 height={600}
                 priority={true}
               />
-              <Image
-                id="part4"
-                className="part"
-                src="/logo/PP1.png"
-                alt="P"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image
-                id="part5"
-                className="part"
-                src="/logo/PP2.png"
-                alt="P"
-                width={800}
-                height={600}
-                priority={true}
-              />
+              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
+              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
               <div
                 id="part6"
                 className="agdasima-bold" // Apply the bold font class here
@@ -222,10 +88,10 @@ export default function LineCard() {
                   fontSize: "55px",
                   textAlign: "center",
                   color: "white",
-                  padding: "250px"
+                  padding: "250px",
                 }}
               >
-                <p>LINE   CARD</p>
+                <p>LINE CARD</p>
               </div>
             </div>
           </div>
@@ -234,13 +100,13 @@ export default function LineCard() {
           href="#features"
           className="scroll-down"
           onClick={(e) => {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault() // Prevent default anchor behavior
 
             // Safely handle the possibility of null with optional chaining
-            document.querySelector('#features')?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start', // Align at the top of the viewport
-            });
+            document.querySelector("#features")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start", // Align at the top of the viewport
+            })
           }}
         >
           <ChevronDown className="w-8 h-8 text-white" />
