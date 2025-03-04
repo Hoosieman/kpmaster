@@ -85,7 +85,7 @@ export default function Home() {
     const timeout = setTimeout(() => {
       setIsLoading(false)
       setLogoAnimationStarted(true)
-    }, 3000)
+    }, 5000)
 
     return () => clearTimeout(timeout)
   }, [isLoading])
