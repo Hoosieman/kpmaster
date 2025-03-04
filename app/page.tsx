@@ -152,7 +152,7 @@ export default function Home() {
               />
             </div>
             <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "hidden-cta"}`}>
-              <Link href="#about" className="btn btn-primary btn-lg">
+              <Link href="about" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
               <Link href="/contact" className="btn btn-outline btn-lg" style={{ color: "white", borderColor: "white" }}>
@@ -201,49 +201,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* About Section Preview */}
-      <section id="about" className="section">
-        <div className="container">
-          <div className="about-content">
-            <div className="about-text">
-              <h2 className="section-title">About K&P Sales</h2>
-              <p>
-                K & P Sales Engineers has provided solutions for our Intermountain West customers for almost 100 years.
-                We are experts in the handling of bulk products specializing in the handling of food, nutraceuticals,
-                pharmaceuticals, chemicals and mining applications. Whether you have needs to size, separate, convey,
-                weigh, dust collection or dust suppression for your material, we have a solution for you. Contact us to
-                discuss your application.
-              </p>
-
-              <div className="about-stats">
-                <div className="stat-item">
-                  <div className="stat-number">40+</div>
-                  <div className="stat-label">Years Experience</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">500+</div>
-                  <div className="stat-label">Projects Completed</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">20+</div>
-                  <div className="stat-label">Manufacturers</div>
-                </div>
-              </div>
-              <Link href="#about" className="btn btn-primary btn-lg" style={{ marginTop: "2rem" }}>
-                Learn More About Us
-              </Link>
-            </div>
-            <div className="about-image">
-              <Image
-                src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                alt="Industrial Equipment"
-                width={600}
-                height={400}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* Services Section */}
       <section className="section" style={{ backgroundColor: "var(--gray-100)" }}>

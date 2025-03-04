@@ -97,7 +97,7 @@ p {
 }
 
 .section {
-  padding: 6rem 0;
+  padding: 5rem 0;
 }
 
 .section-sm {
@@ -326,7 +326,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 1, 2, 0.85)), url("/images/hero-bg.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -465,13 +465,23 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("/images/linecard-bg.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg");
   background-size: cover;
   background-position: center;
   color: var(--light);
   text-align: center;
+  opacity: 0; /* Start with it hidden */
+  animation: fadeIn 2s forwards;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .hero-linecard-content {
   max-width: 800px;
   padding: 0 2rem;
@@ -526,6 +536,7 @@ p {
 /* Features Section */
 .features {
   background-color: var(--gray-100);
+  margin-bottom: -10px;
 }
 
 .features-grid {
@@ -596,6 +607,18 @@ p {
   color: #e0e0e0;
   padding: 4rem 2rem;
   border-radius: 60px;
+  opacity: 0; /* Start with it hidden */
+  animation: fadeIn 2s forwards;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .about-image {
@@ -668,6 +691,7 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
+  padding-top: 10px;
 }
 
 .service-card {
@@ -822,24 +846,16 @@ p {
   margin-right: auto;
 }
 
-/* Contact Section */
-.contact-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-}
+
 
 .contact-info {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  justify-content: center;
 }
 
-.contact-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
+
 
 .contact-icon {
   width: 50px;
@@ -857,13 +873,138 @@ p {
 .contact-text h3 {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
+  justify-content: center;
+}
+
+/* Make the map container responsive */
+.map-container {
+  position: relative;  /* Ensure the iframe stays within the container bounds */
+  width: 100%;         /* Full width for responsiveness */
+  max-width: 900px;    /* Limit the maximum width of the map container on desktop */
+  margin: 0 auto;  
+  border: 5px solid rgb(139, 36, 36);     /* Center the map container horizontally */
+}
+
+.map-container iframe {
+  width: 100%;         /* Ensure the map scales to fit the container */
+  height: 450px;       /* Set a default height for larger screens */
+  max-width: 100%;     /* Prevent overflow on mobile */
+  border: 0;
+}
+
+/* Handle larger screen sizes */
+@media (min-width: 1024px) {
+  .map-container iframe {
+    height: 400px;
+      /* Adjust the height for desktop */
+  }
+
+  .map-container {
+    height: 400px; 
+    position: relative;  /* Ensure the iframe stays within the container bounds */
+    width: 100%;         /* Full width for responsiveness */
+    max-width: 400px;    /* Limit the maximum width of the map container on desktop */
+    margin: 0;           /* Remove the auto margin for centering */
+    margin-left: 20px;   /* Push the container 20px to the left */
+    border: 5px solid rgb(139, 36, 36); /* Add a red border */
+     /* Add a border radius */
+  }
+}
+
+
+
+/* Handle smaller screen sizes */
+@media (max-width: 768px) {
+  .map-container iframe {
+    height: 300px;  /* Adjust the height for smaller screens */
+  }
+}
+
+
+/* Ensure contact form and other elements fit on smaller screens */
+.contact-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 300px; /* Ensure each item takes up enough space on smaller screens */
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.contact-icon {
+  margin-right: 10px;
+}
+
+.contact-text h3 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.contact-text p {
+  font-size: 14px;
+  margin: 0;
 }
 
 .contact-form {
-  background-color: var(--light);
-  padding: 2.5rem;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  flex: 1;
+  min-width: 300px; /* Prevent the form from being too wide on small screens */
+}
+
+/* Handle smaller screen sizes */
+@media (max-width: 768px) {
+  .contact-content {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-info {
+    margin-bottom: 20px;
+    justify-content: center;
+    
+  }
+
+  .map-container iframe {
+    height: 300px; /* Adjust map height for mobile */
+  }
+
+  /* Make sure CTA button looks good on small screens */
+  .cta-title {
+    font-size: 1.5rem;
+  }
+
+  .cta-text {
+    font-size: 1rem;
+  }
+
+  .btn-lg {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+}
+
+/* Handle extra small screens */
+@media (max-width: 480px) {
+  .contact-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+  
+
+  .contact-text p {
+    font-size: 13px;
+  }
 }
 
 .form-group {
@@ -1152,4 +1293,73 @@ textarea.form-control {
   animation-delay: 1s;
   will-change: opacity;
 }
+
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeInOverlay 0.3s forwards;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeInContent 0.5s forwards;
+}
+
+/* Close Button */
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.modal-content button:hover {
+  background-color: darken(var(--primary), 10%);
+}
+
+/* Keyframes for fade-in effect */
+@keyframes fadeInOverlay {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 

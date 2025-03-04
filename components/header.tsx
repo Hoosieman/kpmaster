@@ -27,7 +27,7 @@ export default function Header() {
   // Close menu when route changes
   useEffect(() => {
     setMenuOpen(false)
-  }, [])
+  }, [pathname]) // Add pathname as a dependency
 
   return (
     <header className="header">
@@ -47,27 +47,47 @@ export default function Header() {
           </button>
           <ul className={`nav-list ${menuOpen ? "active" : ""}`}>
             <li className="nav-item">
-              <Link href="/" className={`nav-link ${pathname === "/" ? "active" : ""}`}>
+              <Link
+                href="/"
+                className={`nav-link ${pathname === "/" ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)} // Close the menu on route click
+              >
                 Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/#about" className={`nav-link ${pathname === "/#about" ? "active" : ""}`}>
+              <Link
+                href="/about"
+                className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)} // Close the menu on route click
+              >
                 About Us
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/linecard" className={`nav-link ${pathname === "/linecard" ? "active" : ""}`}>
+              <Link
+                href="/linecard"
+                className={`nav-link ${pathname === "/linecard" ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)} // Close the menu on route click
+              >
                 Line Card
               </Link>
             </li>
             <li className="nav-item">
-              <Link href="/contact" className={`nav-link ${pathname === "/contact" ? "active" : ""}`}>
+              <Link
+                href="/contact"
+                className={`nav-link ${pathname === "/contact" ? "active" : ""}`}
+                onClick={() => setMenuOpen(false)} // Close the menu on route click
+              >
                 Contact
               </Link>
             </li>
             <li className="nav-cta">
-              <Link href="/contact" className="btn btn-primary">
+              <Link
+                href="/contact"
+                className="btn btn-primary"
+                onClick={() => setMenuOpen(false)} // Close the menu on route click
+              >
                 Get a Quote
               </Link>
             </li>
@@ -77,4 +97,3 @@ export default function Header() {
     </header>
   )
 }
-

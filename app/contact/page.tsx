@@ -29,9 +29,9 @@ export default function Contact() {
                 <div className="contact-text">
                   <h3>Our Location</h3>
                   <p>
-                    123 Industrial Way
+                    9448 S 1210 E
                     <br />
-                    Salt Lake City, UT 84123
+                    Sandy, UT 84094
                     <br />
                     United States
                   </p>
@@ -71,7 +71,7 @@ export default function Contact() {
 
               <div className="map-container">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d48427.39649094052!2d-111.96593555119534!3d40.658272328629444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x875289619b6af20f%3A0x3171b30a65b837c0!2sSalt%20Lake%20City%2C%20UT%2084123!5e0!3m2!1sen!2sus!4v1741049393128!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3030.275494123532!2d-111.85640199999999!3d40.579674000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87527d56220cfc9d%3A0x9fc71ca6c30cd910!2sK%20%26%20P%20Sales%20Engineers%20Inc!5e0!3m2!1sen!2sus!4v1741098913128!5m2!1sen!2sus"
                   width="600"
                   height="450"
                   style={{ border: 0 }}
