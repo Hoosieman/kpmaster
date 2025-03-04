@@ -57,7 +57,8 @@ export default function Home() {
       // Preload each image
       const preloadPromises = imageSources.map((src) => {
         return new Promise((resolve) => {
-          const img = new Image()
+          const img = new (window.Image as any)();
+
           img.src = src
           img.onload = () => {
             imagesLoaded.current++
