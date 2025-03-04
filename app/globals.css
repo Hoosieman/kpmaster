@@ -108,8 +108,6 @@ p {
   background-size: cover;
   background-position: center;
   background-attachment: scroll; /* Changed from fixed to scroll */
-  opacity: 0; /* Initial opacity set to 0 */
-  animation: fadeIn 2s ease-in-out forwards;
 }
 
 @media (min-width: 992px) {
@@ -401,8 +399,6 @@ p {
   background-position: center;
   background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
-  opacity: 1; /* Changed from 0 to 1 */
-  transition: background-image 0.5s ease-in; /* Only transition the background */
 }
 
 @media (min-width: 992px) {
@@ -550,8 +546,6 @@ p {
   background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
   text-align: center;
-  opacity: 1; /* Changed from 0 to 1 */
-  transition: background-image 0.5s ease-in; /* Only transition the background */
 }
 
 @media (min-width: 992px) {
@@ -690,8 +684,6 @@ p {
   color: #e0e0e0;
   padding: 4rem 2rem;
   border-radius: 60px;
-  opacity: 1; /* Changed from 0 to 1 */
-  transition: background-image 0.5s ease-in; /* Only transition the background */
 }
 
 @media (min-width: 992px) {
@@ -1179,10 +1171,7 @@ textarea.form-control {
   margin-bottom: 0.75rem;
 }
 
-.footer-links a {
-  opacity: 0.8;
-  transition: var(--transition);
-}
+
 
 .footer-links a:hover {
   opacity: 1;
@@ -1346,29 +1335,12 @@ textarea.form-control {
   will-change: opacity;
 }
 
-/* Optionally, apply fade-in to specific sections */
-.section {
-  opacity: 0;
-  animation: fadeIn 2s ease-out forwards;
-  will-change: opacity;
-}
 
-.hero,
-.features,
-.about-content,
-.services-grid,
-.cta {
-  opacity: 0;
-  animation: fadeIn 2s ease-out forwards;
-  will-change: opacity;
-}
 
-.footer {
-  opacity: 0;
-  animation: fadeIn 2s ease-out forwards;
-  animation-delay: 1s;
-  will-change: opacity;
-}
+
+
+
+
 
 /* Modal Overlay */
 .modal-overlay {
@@ -1449,10 +1421,7 @@ textarea.form-control {
   font-style: normal;
 }
 
-/* Hero Background Transition */
-.hero-loaded {
-  /* No opacity change needed */
-}
+
 
 /* Loading Screen Styles */
 .loading-screen {
