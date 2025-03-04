@@ -24,9 +24,14 @@ export default function AnimationScript() {
 
     const scrollLinks = document.querySelectorAll(".scroll-down, .scroll-indicator")
 
-    function handleScrollClick(e) {
+    // Correct the event listener by using a generic 'Event' type and a type guard for MouseEvent
+    function handleScrollClick(e: Event) {
       e.preventDefault()
-      const href = e.currentTarget.getAttribute("href")
+
+      // Type guard to narrow down the event to MouseEvent
+      const target = e.currentTarget as HTMLElement
+      const href = target.getAttribute("href")
+
       if (href) {
         const targetElement = document.querySelector(href)
         if (targetElement) {
@@ -36,7 +41,7 @@ export default function AnimationScript() {
     }
 
     scrollLinks.forEach((link) => {
-      link.addEventListener("click", handleScrollClick)
+      link.addEventListener("click", handleScrollClick as EventListener)
     })
 
     return () => {
@@ -45,7 +50,7 @@ export default function AnimationScript() {
       })
 
       scrollLinks.forEach((link) => {
-        link.removeEventListener("click", handleScrollClick)
+        link.removeEventListener("click", handleScrollClick as EventListener)
       })
     }
   }, [])
