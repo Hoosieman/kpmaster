@@ -1,18 +1,26 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
-import Head from "next/head"
+import LoadingScreen from "../../components/LoadingScreen"
 
 export default function LineCard() {
-  // State for modal visibility and selected manufacturer's data
+  // Loading state management - ADDED
+  const [isLoading, setIsLoading] = useState(true)
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
+
+  // Track if all images have loaded - ADDED
+  const imagesLoaded = useRef(0)
+  const totalImages = useRef(0)
+
+  // State for modal visibility and selected manufacturer's data - EXISTING
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalContent, setModalContent] = useState<string[] | null>(null)
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
 
-  // Manufacturer product data
+  // Manufacturer product data - EXISTING
   const manufacturerData: Record<string, string[]> = {
     aaf: ["Product 1", "Product 2", "Product 3"],
     andco: ["Product A", "Product B"],
@@ -26,7 +34,91 @@ export default function LineCard() {
     thermo: ["Product X", "Product Y"],
   }
 
-  // Open modal with specific manufacturer's products
+  // Preload images on component mount - ADDED
+  useEffect(() => {
+    // Preload all images first
+    const preloadImages = async () => {
+      // Get all image sources from the page
+      const imageSources = [
+        "/logo/K1.png",
+        "/logo/K2.png",
+        "/logo/and2.png",
+        "/logo/PP1.png",
+        "/logo/PP2.png",
+        "/logo/text2.png",
+      ]
+
+      // Add manufacturer logos to preload
+      Object.keys(manufacturerData).forEach((manufacturer) => {
+        imageSources.push(`/images/${manufacturer.toLowerCase()}.png`)
+      })
+
+      // Add hero background image
+      const heroBackgroundUrl = "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg" // Update with your actual background image URL
+      imageSources.push(heroBackgroundUrl)
+
+      totalImages.current = imageSources.length
+
+      // Preload each image
+      const preloadPromises = imageSources.map((src) => {
+        return new Promise((resolve) => {
+          const img = new window.Image()
+
+          // Set crossOrigin for external images to avoid CORS issues
+          img.crossOrigin = "anonymous"
+          img.src = src
+
+          // Special handling for hero background
+          if (src === heroBackgroundUrl) {
+            img.onload = () => {
+              setBackgroundLoaded(true)
+              imagesLoaded.current++
+              resolve(true)
+            }
+          } else {
+            img.onload = () => {
+              imagesLoaded.current++
+              resolve(true)
+            }
+          }
+
+          img.onerror = () => {
+            console.error(`Failed to load image: ${src}`)
+            if (src === heroBackgroundUrl) {
+              // Even if background fails, mark it as loaded to continue
+              setBackgroundLoaded(true)
+            }
+            imagesLoaded.current++
+            resolve(false)
+          }
+        })
+      })
+
+      try {
+        // Wait for all images to preload
+        await Promise.all(preloadPromises)
+        console.log(`Loaded ${imagesLoaded.current} of ${totalImages.current} images`)
+      } catch (error) {
+        console.error("Error preloading images:", error)
+      }
+
+      // Hide loading screen
+      setIsLoading(false)
+    }
+
+    preloadImages()
+
+    // Fallback: hide loading screen after 8 seconds regardless
+    const timeout = setTimeout(() => {
+      console.log("Fallback timeout triggered - forcing load completion")
+      setBackgroundLoaded(true)
+      setIsLoading(false)
+    }, 8000)
+
+    return () => clearTimeout(timeout)
+  }, [])
+
+  // Open modal with specific manufacturer's products - EXISTING
   const openModal = (manufacturer: string) => {
     // Prevent any default behavior that might cause scrolling
     setModalContent(manufacturerData[manufacturer])
@@ -39,7 +131,7 @@ export default function LineCard() {
     document.body.style.width = "100%"
   }
 
-  // Close modal
+  // Close modal - EXISTING
   const closeModal = () => {
     // Get the scroll position from the body's top property
     const scrollY = document.body.style.top
@@ -57,66 +149,70 @@ export default function LineCard() {
     window.scrollTo(0, Number.parseInt(scrollY || "0") * -1)
   }
 
+  // If still loading, show loading screen - ADDED
+  if (isLoading) {
+    return <LoadingScreen progress={(imagesLoaded.current / totalImages.current) * 100} />
+  }
+
   return (
     <main>
-
-
-      {/* Google Fonts Link (using next/head) */}
-      <Head>
+      {/* Google Fonts Link - EXISTING */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
         href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap"
         rel="stylesheet"
       />
-      </Head>
 
-
-
-      {/* Hero Section */}
-      <section className="hero">
+      {/* Hero Section - MODIFIED to add backgroundLoaded class */}
+      <section className={`hero ${backgroundLoaded ? 'hero-loaded' : ''}`}>
         <div className="container">
           <div className="hero-content">
             <div className="containers">
               <Image
                 id="part1"
-                className={`part`}
+                className="part"
                 src="/logo/K1.png"
                 alt="K"
                 width={800}
                 height={600}
+                priority={true}
               />
               <Image
                 id="part2"
-                className={`part`}
+                className="part"
                 src="/logo/K2.png"
                 alt="K"
                 width={800}
                 height={600}
+                priority={true}
               />
               <Image
                 id="part3"
-                className={`part`}
+                className="part"
                 src="/logo/and2.png"
                 alt="&"
                 width={800}
                 height={600}
+                priority={true}
               />
               <Image
                 id="part4"
-                className={`part`}
+                className="part"
                 src="/logo/PP1.png"
                 alt="P"
                 width={800}
                 height={600}
+                priority={true}
               />
               <Image
                 id="part5"
-                className={`part`}
+                className="part"
                 src="/logo/PP2.png"
                 alt="P"
                 width={800}
                 height={600}
+                priority={true}
               />
               <div
                 id="part6"
@@ -130,14 +226,12 @@ export default function LineCard() {
               >
                 <p>LINE   CARD</p>
               </div>
-
             </div>
-           
           </div>
         </div>
         <Link
           href="#features"
-          className={`scroll-down`}
+          className="scroll-down"
           onClick={(e) => {
             e.preventDefault(); // Prevent default anchor behavior
 
@@ -150,11 +244,9 @@ export default function LineCard() {
         >
           <ChevronDown className="w-8 h-8 text-white" />
         </Link>
-
-
       </section>
 
-      {/* Manufacturers Section */}
+      {/* Manufacturers Section - UNCHANGED */}
       <section id="features" className="manufacturer-section">
         <div className="container">
           <div className="manufacturer-category">
@@ -203,7 +295,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - UNCHANGED */}
       <section className="section-sm cta">
         <div className="container">
           <h2 className="cta-title">Need help selecting the right equipment?</h2>
@@ -216,7 +308,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* Modal Section */}
+      {/* Modal Section - UNCHANGED */}
       {isModalOpen && (
         <div
           className="modal-overlay"

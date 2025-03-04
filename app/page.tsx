@@ -3,22 +3,16 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown } from 'lucide-react'
 import LoadingScreen from "../components/LoadingScreen"
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(() => {
-    // Check if this is the initial page load
-    if (typeof window !== "undefined") {
-      // If we have a record in sessionStorage, this isn't the first load
-      const hasVisited = sessionStorage.getItem("hasVisitedHome")
-      if (hasVisited) {
-        return false // Skip loading screen
-      }
-    }
-    return true // Show loading screen on first visit
+    // Always show loading screen initially to ensure proper image loading
+    return true
   })
   const [logoAnimationStarted, setLogoAnimationStarted] = useState(false)
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false)
 
   // Track if all images have loaded
   const imagesLoaded = useRef(0)
@@ -46,33 +40,64 @@ export default function Home() {
         "/logo/PP1.png",
         "/logo/PP2.png",
         "/logo/text2.png",
-        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-        "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        // Use Next.js Image Optimization for external images
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070",
+        "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070",
+        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070",
+        "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070",
+        "https://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg",
+        "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg",
       ]
+
+      // Add your hero background image to the preload list
+      // Replace with the actual URL of your hero background image
+      const heroBackgroundUrl = "https://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg" // Update this with your actual background image URL
+      imageSources.push(heroBackgroundUrl)
 
       totalImages.current = imageSources.length
 
       // Preload each image
       const preloadPromises = imageSources.map((src) => {
         return new Promise((resolve) => {
-          const img = new window.Image();
+          const img = new window.Image()
 
+          // Set crossOrigin for external images to avoid CORS issues
+          img.crossOrigin = "anonymous"
           img.src = src
-          img.onload = () => {
-            imagesLoaded.current++
-            resolve(true)
+
+          // Special handling for hero background
+          if (src === heroBackgroundUrl) {
+            img.onload = () => {
+              setBackgroundLoaded(true)
+              imagesLoaded.current++
+              resolve(true)
+            }
+          } else {
+            img.onload = () => {
+              imagesLoaded.current++
+              resolve(true)
+            }
           }
+
           img.onerror = () => {
+            console.error(`Failed to load image: ${src}`)
+            if (src === heroBackgroundUrl) {
+              // Even if background fails, mark it as loaded to continue
+              setBackgroundLoaded(true)
+            }
             imagesLoaded.current++
             resolve(false)
           }
         })
       })
 
-      // Wait for all images to preload
-      await Promise.all(preloadPromises)
+      try {
+        // Wait for all images to preload
+        await Promise.all(preloadPromises)
+        console.log(`Loaded ${imagesLoaded.current} of ${totalImages.current} images`)
+      } catch (error) {
+        console.error("Error preloading images:", error)
+      }
 
       // Hide loading screen and start logo animation
       setIsLoading(false)
@@ -82,23 +107,26 @@ export default function Home() {
     preloadImages()
 
     // Fallback: hide loading screen after 8 seconds regardless
+    // Increased from 5 to 8 seconds to give more time for background loading
     const timeout = setTimeout(() => {
+      console.log("Fallback timeout triggered - forcing load completion")
+      setBackgroundLoaded(true)
       setIsLoading(false)
       setLogoAnimationStarted(true)
-    }, 5000)
+    }, 8000)
 
     return () => clearTimeout(timeout)
   }, [isLoading])
 
   // If still loading, show loading screen
   if (isLoading) {
-    return <LoadingScreen />
+    return <LoadingScreen progress={(imagesLoaded.current / totalImages.current) * 100} />
   }
 
   return (
     <main>
       {/* Hero Section */}
-      <section className="hero">
+      <section className={`hero ${backgroundLoaded ? 'hero-loaded' : ''}`}>
         <div className="container">
           <div className="hero-content">
             <div className="containers">
@@ -109,6 +137,7 @@ export default function Home() {
                 alt="K"
                 width={800}
                 height={400}
+                priority={true}
               />
               <Image
                 id="part2"
@@ -117,6 +146,7 @@ export default function Home() {
                 alt="K"
                 width={800}
                 height={400}
+                priority={true}
               />
               <Image
                 id="part3"
@@ -125,6 +155,7 @@ export default function Home() {
                 alt="&"
                 width={800}
                 height={400}
+                priority={true}
               />
               <Image
                 id="part4"
@@ -133,6 +164,7 @@ export default function Home() {
                 alt="P"
                 width={800}
                 height={400}
+                priority={true}
               />
               <Image
                 id="part5"
@@ -141,6 +173,7 @@ export default function Home() {
                 alt="P"
                 width={800}
                 height={400}
+                priority={true}
               />
               <Image
                 id="part6"
@@ -149,10 +182,11 @@ export default function Home() {
                 alt="Sales Engineers"
                 width={800}
                 height={400}
+                priority={true}
               />
             </div>
             <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "hidden-cta"}`}>
-              <Link href="about" className="btn btn-primary btn-lg">
+              <Link href="#features" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
               <Link href="/contact" className="btn btn-outline btn-lg" style={{ color: "white", borderColor: "white" }}>
@@ -163,15 +197,15 @@ export default function Home() {
         </div>
         <Link
           href="#features"
-          className={`scroll-down`}
+          className="scroll-down"
           onClick={(e) => {
-            e.preventDefault(); // Prevent default anchor behavior
+            e.preventDefault() // Prevent default anchor behavior
 
             // Safely handle the possibility of null with optional chaining
-            document.querySelector('#features')?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start', // Align at the top of the viewport
-            });
+            document.querySelector("#features")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start", // Align at the top of the viewport
+            })
           }}
         >
           <ChevronDown className="w-8 h-8 text-white" />
@@ -213,8 +247,6 @@ export default function Home() {
         </div>
       </section>
 
-      
-
       {/* Services Section */}
       <section className="section" style={{ backgroundColor: "var(--gray-100)" }}>
         <div className="container">
@@ -226,11 +258,12 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070"
                   alt="Equipment Sales"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -246,11 +279,12 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=2070"
                   alt="Technical Support"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -266,11 +300,12 @@ export default function Home() {
             <div className="service-card">
               <div className="service-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+                  src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=2070"
                   alt="Engineering Solutions"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  unoptimized={false}
                 />
               </div>
               <div className="service-content">
@@ -303,4 +338,3 @@ export default function Home() {
     </main>
   )
 }
-
