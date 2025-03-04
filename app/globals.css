@@ -102,6 +102,21 @@ p {
 
 .section-sm {
   padding: 4rem 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0; /* Initial opacity set to 0 */
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .section-title {
@@ -468,6 +483,7 @@ p {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/ant-rozetsky-272965.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   color: var(--light);
   text-align: center;
   opacity: 0; /* Start with it hidden */
@@ -603,7 +619,10 @@ p {
   grid-template-columns: 1fr 1fr;
   gap: 4rem;
   align-items: center;
-  background-color: rgb(26, 26, 26);
+  background: linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 1, 2, 0.85)), url("http://kpsalesengineers.com/wp-content/uploads/2017/11/christopher-baumeister-304888.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: #e0e0e0;
   padding: 4rem 2rem;
   border-radius: 60px;
@@ -677,7 +696,7 @@ p {
 .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--primary);
+  color: #ba3c38;
   margin-bottom: 0.5rem;
 }
 
@@ -1140,6 +1159,7 @@ textarea.form-control {
 
   .section-sm {
     padding: 3rem 0;
+    
   }
 
   .about-content {
@@ -1363,3 +1383,14 @@ textarea.form-control {
 }
 
 
+.agdasima-regular {
+  font-family: "Agdasima", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.agdasima-bold {
+  font-family: "Agdasima", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}

@@ -161,7 +161,19 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Link href="#features" className={`scroll-down ${logoAnimationStarted ? "animate-scroll" : "hidden-scroll"}`}>
+        <Link
+          href="#features"
+          className={`scroll-down`}
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+
+            // Safely handle the possibility of null with optional chaining
+            document.querySelector('#features')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start', // Align at the top of the viewport
+            });
+          }}
+        >
           <ChevronDown className="w-8 h-8 text-white" />
         </Link>
       </section>

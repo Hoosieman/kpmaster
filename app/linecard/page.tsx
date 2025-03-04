@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
+import Head from "next/head"
 
 export default function LineCard() {
   // State for modal visibility and selected manufacturer's data
@@ -58,19 +59,103 @@ export default function LineCard() {
 
   return (
     <main>
+
+
+      {/* Google Fonts Link (using next/head) */}
+      <Head>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap"
+        rel="stylesheet"
+      />
+      </Head>
+
+
+
       {/* Hero Section */}
-      <section className="hero-linecard">
-        <div className="hero-linecard-content">
-          <h1 className="hero-linecard-title">Line Card</h1>
-          <p className="hero-linecard-subtitle">Service | Support | Success</p>
+      <section className="hero">
+        <div className="container">
+          <div className="hero-content">
+            <div className="containers">
+              <Image
+                id="part1"
+                className={`part`}
+                src="/logo/K1.png"
+                alt="K"
+                width={800}
+                height={600}
+              />
+              <Image
+                id="part2"
+                className={`part`}
+                src="/logo/K2.png"
+                alt="K"
+                width={800}
+                height={600}
+              />
+              <Image
+                id="part3"
+                className={`part`}
+                src="/logo/and2.png"
+                alt="&"
+                width={800}
+                height={600}
+              />
+              <Image
+                id="part4"
+                className={`part`}
+                src="/logo/PP1.png"
+                alt="P"
+                width={800}
+                height={600}
+              />
+              <Image
+                id="part5"
+                className={`part`}
+                src="/logo/PP2.png"
+                alt="P"
+                width={800}
+                height={600}
+              />
+              <div
+                id="part6"
+                className="agdasima-bold" // Apply the bold font class here
+                style={{
+                  fontSize: "55px",
+                  textAlign: "center",
+                  color: "white",
+                  padding: "250px"
+                }}
+              >
+                <p>LINE   CARD</p>
+              </div>
+
+            </div>
+           
+          </div>
         </div>
-        <Link href="#manufacturers" className="scroll-indicator">
-          <ChevronDown className="text-white" />
+        <Link
+          href="#features"
+          className={`scroll-down`}
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+
+            // Safely handle the possibility of null with optional chaining
+            document.querySelector('#features')?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start', // Align at the top of the viewport
+            });
+          }}
+        >
+          <ChevronDown className="w-8 h-8 text-white" />
         </Link>
+
+
       </section>
 
       {/* Manufacturers Section */}
-      <section id="manufacturers" className="manufacturer-section">
+      <section id="features" className="manufacturer-section">
         <div className="container">
           <div className="manufacturer-category">
             <h2 className="section-title">Manufacturers</h2>
