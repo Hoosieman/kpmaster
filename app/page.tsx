@@ -57,7 +57,7 @@ export default function Home() {
       // Preload each image
       const preloadPromises = imageSources.map((src) => {
         return new Promise((resolve) => {
-          const img = new (window.Image as any)();
+          const img = new window.Image();
 
           img.src = src
           img.onload = () => {
@@ -85,7 +85,7 @@ export default function Home() {
     const timeout = setTimeout(() => {
       setIsLoading(false)
       setLogoAnimationStarted(true)
-    }, 2000)
+    }, 3000)
 
     return () => clearTimeout(timeout)
   }, [isLoading])
