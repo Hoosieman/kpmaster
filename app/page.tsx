@@ -1,13 +1,70 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
 export default function Home() {
-  // Logo animation starts immediately
-  const [logoAnimationStarted] = useState(true)
+  // Track loading state
+  const [logoAnimationStarted, setLogoAnimationStarted] = useState(false)
+  const [pageFullyLoaded, setPageFullyLoaded] = useState(false)
+  const imagesLoaded = useRef(0)
+  const totalImages = useRef(9) // 6 logo images + 3 service images
+
+  // Function to check if all images are loaded
+  const handleImageLoad = () => {
+    imagesLoaded.current += 1
+    if (imagesLoaded.current >= totalImages.current) {
+      // All images are loaded
+      setPageFullyLoaded(true)
+    }
+  }
+
+  // Use useEffect to handle page load and start animation
+  useEffect(() => {
+    // Only start animation when page is fully loaded
+    if (pageFullyLoaded && !logoAnimationStarted) {
+      // Use requestIdleCallback (or fallback to setTimeout) to ensure browser is idle
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(
+          () => {
+            // Extra delay to ensure everything is rendered
+            setTimeout(() => {
+              setLogoAnimationStarted(true)
+            }, 500)
+          },
+          { timeout: 2000 },
+        ) // 2 second timeout
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        setTimeout(() => {
+          setLogoAnimationStarted(true)
+        }, 1000) // Longer delay as fallback
+      }
+    }
+  }, [pageFullyLoaded, logoAnimationStarted])
+
+  // Additional check for window load event
+  useEffect(() => {
+    const handleLoad = () => {
+      // Wait a bit after load event to ensure everything is rendered
+      setTimeout(() => {
+        setPageFullyLoaded(true)
+      }, 500)
+    }
+
+    // Check if document is already loaded
+    if (document.readyState === "complete") {
+      handleLoad()
+    } else {
+      window.addEventListener("load", handleLoad)
+    }
+
+    return () => {
+      window.removeEventListener("load", handleLoad)
+    }
+  }, [])
 
   return (
     <main>
@@ -18,60 +75,60 @@ export default function Home() {
             <div className="containers">
               <Image
                 id="part1"
-                className={`part animate-part1`}
+                className={`part ${logoAnimationStarted ? "animate-part1" : "opacity-0"}`}
                 src="/logo/K1.png"
                 alt="K"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
               <Image
                 id="part2"
-                className={`part animate-part2`}
+                className={`part ${logoAnimationStarted ? "animate-part2" : "opacity-0"}`}
                 src="/logo/K2.png"
                 alt="K"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
               <Image
                 id="part3"
-                className={`part animate-part3`}
+                className={`part ${logoAnimationStarted ? "animate-part3" : "opacity-0"}`}
                 src="/logo/and2.png"
                 alt="&"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
               <Image
                 id="part4"
-                className={`part animate-part4`}
+                className={`part ${logoAnimationStarted ? "animate-part4" : "opacity-0"}`}
                 src="/logo/PP1.png"
                 alt="P"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
               <Image
                 id="part5"
-                className={`part animate-part5`}
+                className={`part ${logoAnimationStarted ? "animate-part5" : "opacity-0"}`}
                 src="/logo/PP2.png"
                 alt="P"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
               <Image
                 id="part6"
-                className={`part animate-part6`}
+                className={`part ${logoAnimationStarted ? "animate-part6" : "opacity-0"}`}
                 src="/logo/text2.png"
                 alt="Sales Engineers"
                 width={800}
                 height={400}
-                priority={true}
+                onLoad={handleImageLoad}
               />
             </div>
-            <div className={`hero-cta animate-cta`}>
+            <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "opacity-0"}`}>
               <Link href="#features" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
@@ -149,6 +206,8 @@ export default function Home() {
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  priority={true}
+                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
@@ -169,6 +228,8 @@ export default function Home() {
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  priority={true}
+                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
@@ -189,6 +250,8 @@ export default function Home() {
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  priority={true}
+                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
