@@ -1,12 +1,99 @@
+"use client"
+
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
-
-
-
+import LoadingScreen from "../components/LoadingScreen"
 
 export default function Home() {
-  
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if this is the initial page load
+    if (typeof window !== "undefined") {
+      // If we have a record in sessionStorage, this isn't the first load
+      const hasVisited = sessionStorage.getItem("hasVisitedHome")
+      if (hasVisited) {
+        return false // Skip loading screen
+      }
+    }
+    return true // Show loading screen on first visit
+  })
+  const [logoAnimationStarted, setLogoAnimationStarted] = useState(false)
+
+  // Track if all images have loaded
+  const imagesLoaded = useRef(0)
+  const totalImages = useRef(0)
+
+  useEffect(() => {
+    // If we're not showing the loading screen, start logo animation immediately
+    if (!isLoading) {
+      setLogoAnimationStarted(true)
+      return
+    }
+
+    // Mark that user has visited the home page
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem("hasVisitedHome", "true")
+    }
+
+    // Preload all images first
+    const preloadImages = async () => {
+      // Get all image sources from the page
+      const imageSources = [
+        "/logo/K1.png",
+        "/logo/K2.png",
+        "/logo/and2.png",
+        "/logo/PP1.png",
+        "/logo/PP2.png",
+        "/logo/text2.png",
+        "https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+        "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      ]
+
+      totalImages.current = imageSources.length
+
+      // Preload each image
+      const preloadPromises = imageSources.map((src) => {
+        return new Promise((resolve) => {
+          const img = new Image()
+          img.src = src
+          img.onload = () => {
+            imagesLoaded.current++
+            resolve(true)
+          }
+          img.onerror = () => {
+            imagesLoaded.current++
+            resolve(false)
+          }
+        })
+      })
+
+      // Wait for all images to preload
+      await Promise.all(preloadPromises)
+
+      // Hide loading screen and start logo animation
+      setIsLoading(false)
+      setLogoAnimationStarted(true)
+    }
+
+    preloadImages()
+
+    // Fallback: hide loading screen after 8 seconds regardless
+    const timeout = setTimeout(() => {
+      setIsLoading(false)
+      setLogoAnimationStarted(true)
+    }, 2000)
+
+    return () => clearTimeout(timeout)
+  }, [isLoading])
+
+  // If still loading, show loading screen
+  if (isLoading) {
+    return <LoadingScreen />
+  }
+
   return (
     <main>
       {/* Hero Section */}
@@ -14,21 +101,56 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={400} />
-              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={400} />
-              <Image id="part3" className="part" src="/logo/and2.png" alt="&" width={800} height={400} />
-              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={400} />
-              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={400} />
+              <Image
+                id="part1"
+                className={`part ${logoAnimationStarted ? "animate-part1" : "hidden-part"}`}
+                src="/logo/K1.png"
+                alt="K"
+                width={800}
+                height={400}
+              />
+              <Image
+                id="part2"
+                className={`part ${logoAnimationStarted ? "animate-part2" : "hidden-part"}`}
+                src="/logo/K2.png"
+                alt="K"
+                width={800}
+                height={400}
+              />
+              <Image
+                id="part3"
+                className={`part ${logoAnimationStarted ? "animate-part3" : "hidden-part"}`}
+                src="/logo/and2.png"
+                alt="&"
+                width={800}
+                height={400}
+              />
+              <Image
+                id="part4"
+                className={`part ${logoAnimationStarted ? "animate-part4" : "hidden-part"}`}
+                src="/logo/PP1.png"
+                alt="P"
+                width={800}
+                height={400}
+              />
+              <Image
+                id="part5"
+                className={`part ${logoAnimationStarted ? "animate-part5" : "hidden-part"}`}
+                src="/logo/PP2.png"
+                alt="P"
+                width={800}
+                height={400}
+              />
               <Image
                 id="part6"
-                className="part"
+                className={`part ${logoAnimationStarted ? "animate-part6" : "hidden-part"}`}
                 src="/logo/text2.png"
                 alt="Sales Engineers"
                 width={800}
                 height={400}
               />
             </div>
-            <div className="hero-cta">
+            <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "hidden-cta"}`}>
               <Link href="#about" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
@@ -38,7 +160,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Link href="#features" className="scroll-down">
+        <Link href="#features" className={`scroll-down ${logoAnimationStarted ? "animate-scroll" : "hidden-scroll"}`}>
           <ChevronDown className="w-8 h-8 text-white" />
         </Link>
       </section>
