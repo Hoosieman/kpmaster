@@ -49,7 +49,7 @@ export default function Footer() {
             <ul>
               <li>
                 <i className="fas fa-map-marker-alt"></i>
-                <span>123 Industrial Way, Salt Lake City, UT 84123</span>
+                <span>8841 South Redwood Road, Suite A1, West Jordan, UT 84088</span>
               </li>
               <li>
                 <i className="fas fa-phone"></i>
@@ -57,7 +57,7 @@ export default function Footer() {
               </li>
               <li>
                 <i className="fas fa-envelope"></i>
-                <span>info@kpsalesengineers.com</span>
+                <span>sales@kpsalesengineers.com</span>
               </li>
             </ul>
           </div>

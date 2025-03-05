@@ -29,9 +29,9 @@ export default function Contact() {
                 <div className="contact-text">
                   <h3>Our Location</h3>
                   <p>
-                    9448 S 1210 E
+                    8841 South Redwood Road, Suite A1
                     <br />
-                    Sandy, UT 84094
+                    West Jordan, UT 84088
                     <br />
                     United States
                   </p>
@@ -52,7 +52,7 @@ export default function Contact() {
                 </div>
                 <div className="contact-text">
                   <h3>Email</h3>
-                  <p>info@kpsalesengineers.com</p>
+                  <p>sales@kpsalesengineers.com</p>
                 </div>
               </div>
               <div className="contact-item">
@@ -71,7 +71,7 @@ export default function Contact() {
 
               <div className="map-container">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3030.275494123532!2d-111.85640199999999!3d40.579674000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87527d56220cfc9d%3A0x9fc71ca6c30cd910!2sK%20%26%20P%20Sales%20Engineers%20Inc!5e0!3m2!1sen!2sus!4v1741098913128!5m2!1sen!2sus"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3029.7831296431114!2d-111.93715399999999!3d40.590542199999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x875288c70a4ad0a1%3A0x6423adf86feb27f4!2s8841%20S%20Redwood%20Rd%20a1%2C%20West%20Jordan%2C%20UT%2084088!5e0!3m2!1sen!2sus!4v1741198065924!5m2!1sen!2sus"
                   width="600"
                   height="450"
                   style={{ border: 0 }}

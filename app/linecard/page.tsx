@@ -1,48 +1,131 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
+// Define a type for product items with URLs
+type ProductItem = {
+  name: string
+  url: string
+}
+
 export default function LineCard() {
-  // State for modal visibility and selected manufacturer's data - EXISTING
+  // State for modal visibility and selected manufacturer's data
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [modalContent, setModalContent] = useState<string[] | null>(null)
+  const [modalContent, setModalContent] = useState<ProductItem[] | null>(null)
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
 
-  // Manufacturer product data - EXISTING
-  const manufacturerData: Record<string, string[]> = {
-    aaf: ["Product 1", "Product 2", "Product 3"],
-    andco: ["Product A", "Product B"],
-    bunting: ["Product X", "Product Y", "Product Z"],
-    dsi: ["Product 1", "Product 2"],
-    formpak: ["Product Alpha", "Product Beta"],
-    kinematics: ["Product 101", "Product 102"],
-    orthman: ["Product A", "Product B"],
-    prater: ["Product Red", "Product Blue"],
-    Sweco: ["Product 1", "Product 2"],
-    thermo: ["Product X", "Product Y"],
+  // State for loading spinner visibility
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Scroll position variable
+  const [scrollYPosition, setScrollYPosition] = useState(0)
+
+  useEffect(() => {
+    // Set the loading state to false after 2 seconds (animation delay)
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000) // 2 seconds delay
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Manufacturer product data with descriptions and URLs
+  const manufacturerData: Record<string, { products: ProductItem[]; description: string }> = {
+    Sweco: {
+      products: [
+        { name: "Product 1", url: "https://www.sweco.com/product1" },
+        { name: "Product 2", url: "https://www.sweco.com/product2" },
+      ],
+      description: "Screening Equipment",
+    },
+    aaf: {
+      products: [
+        { name: "Wet Dust Collectors", url: "https://info.aafintl.com/dust-collection-solutions#B" },
+        { name: "Dry Dust Colletors", url: "https://info.aafintl.com/dust-collection-solutions#A" },
+        { name: "Oil Mist Collectors", url: "https://info.aafintl.com/dust-collection-solutions#C" },
+      ],
+      description: "Dust Collectors",
+    },
+    prater: {
+      products: [
+        { name: "Product Red", url: "https://www.prater.com/product-red" },
+        { name: "Product Blue", url: "https://www.prater.com/product-blue" },
+      ],
+      description: "Particle Size Reduction",
+    },
+    dsi: {
+      products: [
+        { name: "Product 1", url: "https://www.dsi.com/product1" },
+        { name: "Product 2", url: "https://www.dsi.com/product2" },
+      ],
+      description: "Industrial Fans",
+    },
+    andco: {
+      products: [
+        { name: "Product A", url: "https://www.andco.com/producta" },
+        { name: "Product B", url: "https://www.andco.com/productb" },
+      ],
+      description: "Vibration Systems",
+    },
+    bulkpro: {
+      products: [
+        { name: "Product 3", url: "https://www.bulkpro.com/product3" },
+        { name: "Product 4", url: "https://www.bulkpro.com/product4" },
+      ],
+      description: "Bulk Handling",
+    },
+    bunting: {
+      products: [
+        { name: "Product X", url: "https://www.bunting.com/productx" },
+        { name: "Product Y", url: "https://www.bunting.com/producty" },
+        { name: "Product Z", url: "https://www.bunting.com/productz" },
+      ],
+      description: "Magnets & Separation",
+    },
+    formpak: {
+      products: [
+        { name: "Product Alpha", url: "https://www.formpak.com/productalpha" },
+        { name: "Product Beta", url: "https://www.formpak.com/productbeta" },
+      ],
+      description: "Bagging Systems",
+    },
+    kinematics: {
+      products: [
+        { name: "Product 101", url: "https://www.kinematics.com/product101" },
+        { name: "Product 102", url: "https://www.kinematics.com/product102" },
+      ],
+      description: "Conveyors & Equipment",
+    },
+    orthman: {
+      products: [
+        { name: "Product A", url: "https://www.orthman.com/producta" },
+        { name: "Product B", url: "https://www.orthman.com/productb" },
+      ],
+      description: "Agricultural Equipment",
+    },
   }
 
-  // Open modal with specific manufacturer's products - EXISTING
+  // Open modal with specific manufacturer's products
   const openModal = (manufacturer: string) => {
-    // Prevent any default behavior that might cause scrolling
-    setModalContent(manufacturerData[manufacturer])
+    // Save the current scroll position
+    setScrollYPosition(window.scrollY)
+
+    setModalContent(manufacturerData[manufacturer].products)
     setSelectedManufacturer(manufacturer)
     setIsModalOpen(true)
 
-    // Prevent body scrolling but maintain position
+    // Prevent body scrolling, but maintain position
     document.body.style.position = "fixed"
     document.body.style.top = `-${window.scrollY}px`
     document.body.style.width = "100%"
   }
 
-  // Close modal - EXISTING
+  // Close modal
   const closeModal = () => {
-    // Get the scroll position from the body's top property
-    const scrollY = document.body.style.top
-
+    // Update state
     setIsModalOpen(false)
     setModalContent(null)
     setSelectedManufacturer(null)
@@ -52,47 +135,83 @@ export default function LineCard() {
     document.body.style.top = ""
     document.body.style.width = ""
 
-    // Scroll back to the original position
-    window.scrollTo(0, Number.parseInt(scrollY || "0") * -1)
+    // Use setTimeout to ensure the scroll happens after the modal is fully closed
+    setTimeout(() => {
+      window.scrollTo(0, scrollYPosition)
+    }, 0)
   }
 
   return (
     <main>
-      {/* Google Fonts Link - EXISTING */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet" />
-
-      {/* Hero Section - MODIFIED to add backgroundLoaded class */}
+      {/* Hero Section */}
       <section className="hero">
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
-              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
-              <Image
-                id="part3"
-                className="part"
-                src="/logo/and2.png"
-                alt="&"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
-              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
-              <div
-                id="part6"
-                className="agdasima-bold" // Apply the bold font class here
-                style={{
-                  fontSize: "55px",
-                  textAlign: "center",
-                  color: "white",
-                  padding: "250px",
-                }}
-              >
-                <p>LINE CARD</p>
-              </div>
+              {/* Show spinner before animation */}
+              {isLoading ? (
+                <div className="spinner"></div>
+              ) : (
+                <>
+                  <Image
+                    id="part1"
+                    className="part"
+                    src="/logo/K1.png"
+                    alt="K"
+                    width={800}
+                    height={600}
+                    priority={true}
+                  />
+                  <Image
+                    id="part2"
+                    className="part"
+                    src="/logo/K2.png"
+                    alt="K"
+                    width={800}
+                    height={600}
+                    priority={true}
+                  />
+                  <Image
+                    id="part3"
+                    className="part"
+                    src="/logo/and2.png"
+                    alt="&"
+                    width={800}
+                    height={600}
+                    priority={true}
+                  />
+                  <Image
+                    id="part4"
+                    className="part"
+                    src="/logo/PP1.png"
+                    alt="P"
+                    width={800}
+                    height={600}
+                    priority={true}
+                  />
+                  <Image
+                    id="part5"
+                    className="part"
+                    src="/logo/PP2.png"
+                    alt="P"
+                    width={800}
+                    height={600}
+                    priority={true}
+                  />
+                  <div
+                    id="part6"
+                    className="part" // Apply the bold font class here
+                    style={{
+                      fontSize: "55px",
+                      textAlign: "center",
+                      color: "white",
+                      padding: "250px",
+                    }}
+                  >
+                    <p>LINE CARD</p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -100,12 +219,10 @@ export default function LineCard() {
           href="#features"
           className="scroll-down"
           onClick={(e) => {
-            e.preventDefault() // Prevent default anchor behavior
-
-            // Safely handle the possibility of null with optional chaining
+            e.preventDefault()
             document.querySelector("#features")?.scrollIntoView({
               behavior: "smooth",
-              block: "start", // Align at the top of the viewport
+              block: "start",
             })
           }}
         >
@@ -113,15 +230,12 @@ export default function LineCard() {
         </Link>
       </section>
 
-      {/* Manufacturers Section - UNCHANGED */}
+      {/* Manufacturers Section */}
       <section id="features" className="manufacturer-section">
         <div className="container">
           <div className="manufacturer-category">
             <h2 className="section-title">Manufacturers</h2>
-            <p className="section-subtitle">
-              High-quality pumps and fluid handling equipment for industrial applications
-            </p>
-
+            <p> </p>
             <div className="manufacturer-grid">
               {Object.keys(manufacturerData).map((manufacturer) => (
                 <div className="manufacturer-item" key={manufacturer}>
@@ -134,7 +248,10 @@ export default function LineCard() {
                     />
                   </div>
                   <div className="manufacturer-info">
-                    <p></p>
+                    {/* Display the bold description under the logo */}
+                    <p className="manufacturer-description" style={{ fontWeight: "bold" }}>
+                      {manufacturerData[manufacturer].description}
+                    </p>
                     <button
                       className="manufacturer-link"
                       onClick={(e) => {
@@ -175,7 +292,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* Modal Section - UNCHANGED */}
+      {/* Modal Section - UPDATED with clickable links */}
       {isModalOpen && (
         <div
           className="modal-overlay"
@@ -204,21 +321,56 @@ export default function LineCard() {
               width: "90%",
               maxHeight: "80vh",
               overflow: "auto",
+              textAlign: "center", // Added textAlign: "center"
             }}
           >
-            <h2>Products for {selectedManufacturer}</h2>
+            <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
+              Products for {selectedManufacturer?.toUpperCase()}
+            </h2>
 
             {Array.isArray(modalContent) && modalContent.length > 0 ? (
-              <ul>
+              <ul style={{ listStyleType: "none", padding: 0, textAlign: "center" }}>
                 {modalContent.map((product, index) => (
-                  <li key={index}>{product}</li>
+                  <li key={index} style={{ margin: "10px 0" }}>
+                    <a
+                      href={product.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        color: "var(--primary, #0070f3)",
+                        textDecoration: "none",
+                        fontWeight: "500",
+                        display: "inline-block",
+                        padding: "8px 0",
+                      }}
+                      onMouseOver={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                      onMouseOut={(e) => (e.currentTarget.style.textDecoration = "none")}
+                    >
+                      {product.name}
+                    </a>
+                  </li>
                 ))}
               </ul>
             ) : (
               <p>No products available</p>
             )}
 
-            <button className="btn" onClick={closeModal}>
+            <button
+              className="btn"
+              onClick={closeModal}
+              style={{
+                marginTop: "20px",
+                padding: "10px 20px",
+                backgroundColor: "var(--primary, #0070f3)",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                display: "block",
+                margin: "20px auto 0",
+                width: "120px",
+              }}
+            >
               Close
             </button>
           </div>

@@ -17,17 +17,14 @@ export default function About() {
 
               <div className="about-stats">
                 <div className="stat-item">
-                  <div className="stat-number">40+</div>
+                  <div className="stat-number">50+</div>
                   <div className="stat-label">Years Experience</div>
                 </div>
                 <div className="stat-item">
-                  <div className="stat-number">500+</div>
+                  <div className="stat-number">1000+</div>
                   <div className="stat-label">Projects Completed</div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-number">20+</div>
-                  <div className="stat-label">Manufacturers</div>
-                </div>
+      
                 <Link href="contact" className="btn btn-primary btn-lg" style={{ marginTop: "2rem", alignContent: "center"}}>
                 Contact Us
               </Link>

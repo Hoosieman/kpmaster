@@ -6,64 +6,18 @@ import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
 export default function Home() {
-  // Track loading state
-  const [logoAnimationStarted, setLogoAnimationStarted] = useState(false)
-  const [pageFullyLoaded, setPageFullyLoaded] = useState(false)
-  const imagesLoaded = useRef(0)
-  const totalImages = useRef(9) // 6 logo images + 3 service images
+  
 
-  // Function to check if all images are loaded
-  const handleImageLoad = () => {
-    imagesLoaded.current += 1
-    if (imagesLoaded.current >= totalImages.current) {
-      // All images are loaded
-      setPageFullyLoaded(true)
-    }
-  }
+  // State for loading spinner visibility
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Use useEffect to handle page load and start animation
   useEffect(() => {
-    // Only start animation when page is fully loaded
-    if (pageFullyLoaded && !logoAnimationStarted) {
-      // Use requestIdleCallback (or fallback to setTimeout) to ensure browser is idle
-      if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(
-          () => {
-            // Extra delay to ensure everything is rendered
-            setTimeout(() => {
-              setLogoAnimationStarted(true)
-            }, 500)
-          },
-          { timeout: 2000 },
-        ) // 2 second timeout
-      } else {
-        // Fallback for browsers without requestIdleCallback
-        setTimeout(() => {
-          setLogoAnimationStarted(true)
-        }, 1000) // Longer delay as fallback
-      }
-    }
-  }, [pageFullyLoaded, logoAnimationStarted])
+    // Set the loading state to false after 2 seconds (animation delay)
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000) // 2 seconds delay
 
-  // Additional check for window load event
-  useEffect(() => {
-    const handleLoad = () => {
-      // Wait a bit after load event to ensure everything is rendered
-      setTimeout(() => {
-        setPageFullyLoaded(true)
-      }, 500)
-    }
-
-    // Check if document is already loaded
-    if (document.readyState === "complete") {
-      handleLoad()
-    } else {
-      window.addEventListener("load", handleLoad)
-    }
-
-    return () => {
-      window.removeEventListener("load", handleLoad)
-    }
+    return () => clearTimeout(timer)
   }, [])
 
   return (
@@ -73,62 +27,21 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              <Image
-                id="part1"
-                className={`part ${logoAnimationStarted ? "animate-part1" : "opacity-0"}`}
-                src="/logo/K1.png"
-                alt="K"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
-              <Image
-                id="part2"
-                className={`part ${logoAnimationStarted ? "animate-part2" : "opacity-0"}`}
-                src="/logo/K2.png"
-                alt="K"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
-              <Image
-                id="part3"
-                className={`part ${logoAnimationStarted ? "animate-part3" : "opacity-0"}`}
-                src="/logo/and2.png"
-                alt="&"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
-              <Image
-                id="part4"
-                className={`part ${logoAnimationStarted ? "animate-part4" : "opacity-0"}`}
-                src="/logo/PP1.png"
-                alt="P"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
-              <Image
-                id="part5"
-                className={`part ${logoAnimationStarted ? "animate-part5" : "opacity-0"}`}
-                src="/logo/PP2.png"
-                alt="P"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
-              <Image
-                id="part6"
-                className={`part ${logoAnimationStarted ? "animate-part6" : "opacity-0"}`}
-                src="/logo/text2.png"
-                alt="Sales Engineers"
-                width={800}
-                height={400}
-                onLoad={handleImageLoad}
-              />
+              {/* Show spinner before animation */}
+              {isLoading ? (
+                <div className="spinner"></div>
+              ) : (
+                <>
+                  <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
+                  <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
+                  <Image id="part3" className="part" src="/logo/and2.png" alt="&" width={800} height={600} priority={true} />
+                  <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
+                  <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
+                  <Image id="part6" className="part" src="/logo/text2.png" alt="text" width={800} height={600} priority={true} />
+                </>
+              )}
             </div>
-            <div className={`hero-cta ${logoAnimationStarted ? "animate-cta" : "opacity-0"}`}>
+            <div className={`hero-cta`}>
               <Link href="#features" className="btn btn-primary btn-lg">
                 Learn More
               </Link>
@@ -169,7 +82,7 @@ export default function Home() {
               </div>
               <h3 className="feature-title">Industry Expertise</h3>
               <p>
-                With over 40 years of experience, we bring unmatched knowledge to every project and client relationship.
+                With over 50 years of experience, we bring unmatched knowledge to every project and client relationship.
               </p>
             </div>
             <div className="feature-card">
@@ -177,7 +90,7 @@ export default function Home() {
                 <i className="fas fa-cogs"></i>
               </div>
               <h3 className="feature-title">Quality Equipment</h3>
-              <p>We represent only the highest quality manufacturers to ensure reliability and performance.</p>
+              <p>We partner with only the highest quality manufacturers to ensure reliability and performance.</p>
             </div>
             <div className="feature-card">
               <div className="feature-icon">
@@ -207,7 +120,6 @@ export default function Home() {
                   height={400}
                   className="w-full h-full object-cover"
                   priority={true}
-                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
@@ -229,7 +141,6 @@ export default function Home() {
                   height={400}
                   className="w-full h-full object-cover"
                   priority={true}
-                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
@@ -251,13 +162,12 @@ export default function Home() {
                   height={400}
                   className="w-full h-full object-cover"
                   priority={true}
-                  onLoad={handleImageLoad}
                 />
               </div>
               <div className="service-content">
                 <h3 className="service-title">Engineering Solutions</h3>
                 <p className="service-text">
-                  Custom engineering solutions tailored to your unique requirements and challenges.
+                  Custom engineered solutions designed to meet your unique requirements and challenges.
                 </p>
                 <Link href="/contact" className="line-card-link">
                   Request Consultation <i className="fas fa-arrow-right"></i>
