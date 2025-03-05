@@ -718,16 +718,34 @@ p {
 }
 
 .about-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 2rem;
+  display: grid; /* Switch to grid layout for better control */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Auto-fit columns with a minimum width */
+  gap: 2rem; /* Add space between items */
   margin-top: 3rem;
 }
 
 .stat-item {
   text-align: center;
   color: #e0e0e0;
+  margin-bottom: 2rem;
 }
+
+@media (max-width: 768px) {
+  .about-stats {
+    grid-template-columns: 1fr; /* Stack items in a single column on mobile */
+    gap: 2rem; /* Keep the gap for vertical spacing */
+  }
+
+  .stat-item {
+    width: 100%; /* Ensure each item takes full width on mobile */
+    text-align: center; /* Center text for all items */
+  }
+
+  .stat-item:nth-child(3) {
+    margin-top: 2rem; /* Additional space for the link on mobile */
+  }
+}
+
 
 .stat-number {
   font-size: 2.5rem;
