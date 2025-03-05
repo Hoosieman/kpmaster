@@ -187,6 +187,7 @@ export default function LineCard() {
       <section id="features" className="manufacturer-section">
         <div className="container">
           <div className="manufacturer-category">
+            <p> </p>
             <h2 className="section-title">Manufacturers</h2>
             <p> </p>
             <div className="manufacturer-grid">

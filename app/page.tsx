@@ -68,10 +68,15 @@ export default function Home() {
                   <div className="stat-number">1000+</div>
                   <div className="stat-label">Projects Completed</div>
                 </div>
-      
-                <Link href="linecard#features" className="btn btn-primary btn-lg" style={{ marginTop: "2rem", alignContent: "center"}}>
+
+
+                <div className="stat-item">
+                <Link href="linecard#features" className="btn btn-primary" style={{ marginTop: "2rem", alignContent: "center", justifyContent: "center"}}>
                 View Our Equipment Partners
               </Link>
+                </div>
+      
+                
               </div>
               
             </div>
