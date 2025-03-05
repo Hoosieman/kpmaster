@@ -432,15 +432,6 @@ p {
   }
 }
 
-/* Scale-up animation for a more dynamic entrance */
-@keyframes scaleUp {
-  0% {
-    transform: scale(0.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
 
 /* Slide from the left animation */
 @keyframes slideFromLeft {
@@ -468,12 +459,12 @@ p {
 
 /* Delay for each part to appear one after another with different effects */
 #part1 {
-  animation-delay: 0s, 0s;
-  animation-name: fadeIn, scaleUp;
+  animation-delay: 0s;
+  animation-name: slideFromLeft;
 }
 #part2 {
-  animation-delay: 0.5s, 0.5s;
-  animation-name: fadeIn, scaleUp;
+  animation-delay: 0.5s;
+  animation-name: slideFromRight;
 }
 #part3 {
   animation-delay: 1s;
@@ -484,12 +475,12 @@ p {
   animation-name: slideFromRight;
 }
 #part5 {
-  animation-delay: 2s, 2s;
-  animation-name: fadeIn, scaleUp;
+  animation-delay: 2s;
+  animation-name: fadeIn;
 }
 #part6 {
-  animation-delay: 2.5s, 2.5s;
-  animation-name: fadeIn, scaleUp;
+  animation-delay: 2.5s;
+  animation-name: fadeIn;
 }
 
 .hero-cta {
