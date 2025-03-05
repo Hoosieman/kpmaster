@@ -129,10 +129,9 @@ export default function LineCard() {
     setSelectedManufacturer(manufacturer)
     setIsModalOpen(true)
 
-    // Prevent body scrolling, but maintain position
-    document.body.style.position = "fixed"
-    document.body.style.top = `-${window.scrollY}px`
-    document.body.style.width = "100%"
+    // Instead of changing body position, we'll use overflow: hidden
+    // This prevents scrolling without changing the scroll position
+    document.body.style.overflow = "hidden"
   }
 
   // Close modal
@@ -142,15 +141,10 @@ export default function LineCard() {
     setModalContent(null)
     setSelectedManufacturer(null)
 
-    // Restore body scrolling and position
-    document.body.style.position = ""
-    document.body.style.top = ""
-    document.body.style.width = ""
+    // Restore body scrolling
+    document.body.style.overflow = ""
 
-    // Use setTimeout to ensure the scroll happens after the modal is fully closed
-    setTimeout(() => {
-      window.scrollTo(0, scrollYPosition)
-    }, 0)
+    // No need to manually scroll as the position was never changed
   }
 
   return (
@@ -209,7 +203,6 @@ export default function LineCard() {
         <div className="container">
           <div className="manufacturer-category">
             <h2 className="section-title">Manufacturers</h2>
-            <p> </p>
             <div className="manufacturer-grid">
               {Object.keys(manufacturerData).map((manufacturer) => (
                 <div className="manufacturer-item" key={manufacturer}>
@@ -222,7 +215,6 @@ export default function LineCard() {
                     />
                   </div>
                   <div className="manufacturer-info">
-                    {/* Display the bold description under the logo */}
                     <p className="manufacturer-description" style={{ fontWeight: "bold" }}>
                       {manufacturerData[manufacturer].description}
                     </p>
@@ -253,7 +245,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* CTA Section - UNCHANGED */}
+      {/* CTA Section */}
       <section className="section-sm cta">
         <div className="container">
           <h2 className="cta-title">Need help selecting the right equipment?</h2>
@@ -266,7 +258,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* Modal Section - UPDATED with clickable links */}
+      {/* Modal Section - Updated with clickable links */}
       {isModalOpen && (
         <div
           className="modal-overlay"
