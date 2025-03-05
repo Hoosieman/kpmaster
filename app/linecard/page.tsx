@@ -17,20 +17,8 @@ export default function LineCard() {
   const [modalContent, setModalContent] = useState<ProductItem[] | null>(null)
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
 
-  // State for loading spinner visibility
-  const [isLoading, setIsLoading] = useState(true)
-
   // Scroll position variable
   const [scrollYPosition, setScrollYPosition] = useState(0)
-
-  useEffect(() => {
-    // Set the loading state to false after 2 seconds (animation delay)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000) // 2 seconds delay
-
-    return () => clearTimeout(timer)
-  }, [])
 
   // Manufacturer product data with descriptions and URLs
   const manufacturerData: Record<string, { products: ProductItem[]; description: string }> = {
@@ -148,70 +136,64 @@ export default function LineCard() {
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              {/* Show spinner before animation */}
-              {isLoading ? (
-                <div className="spinner"></div>
-              ) : (
-                <>
-                  <Image
-                    id="part1"
-                    className="part"
-                    src="/logo/K1.png"
-                    alt="K"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part2"
-                    className="part"
-                    src="/logo/K2.png"
-                    alt="K"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part3"
-                    className="part"
-                    src="/logo/and2.png"
-                    alt="&"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part4"
-                    className="part"
-                    src="/logo/PP1.png"
-                    alt="P"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part5"
-                    className="part"
-                    src="/logo/PP2.png"
-                    alt="P"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <div
-                    id="part6"
-                    className="part" // Apply the bold font class here
-                    style={{
-                      fontSize: "55px",
-                      textAlign: "center",
-                      color: "white",
-                      padding: "250px",
-                    }}
-                  >
-                    <p>LINE CARD</p>
-                  </div>
-                </>
-              )}
+              {/* Directly show images without loading screen */}
+              <Image
+                id="part1"
+                className="part"
+                src="/logo/K1.png"
+                alt="K"
+                width={800}
+                height={600}
+                priority={true}
+              />
+              <Image
+                id="part2"
+                className="part"
+                src="/logo/K2.png"
+                alt="K"
+                width={800}
+                height={600}
+                priority={true}
+              />
+              <Image
+                id="part3"
+                className="part"
+                src="/logo/and2.png"
+                alt="&"
+                width={800}
+                height={600}
+                priority={true}
+              />
+              <Image
+                id="part4"
+                className="part"
+                src="/logo/PP1.png"
+                alt="P"
+                width={800}
+                height={600}
+                priority={true}
+              />
+              <Image
+                id="part5"
+                className="part"
+                src="/logo/PP2.png"
+                alt="P"
+                width={800}
+                height={600}
+                priority={true}
+              />
+              <div
+                id="part6"
+                className="part" // Apply the bold font class here
+                style={{
+                  fontSize: "55px",
+                  textAlign: "center",
+                  color: "white",
+                  padding: "250px",
+                }}
+              >
+                <p>LINE CARD</p>
+              </div>
             </div>
           </div>
         </div>

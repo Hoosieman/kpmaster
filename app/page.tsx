@@ -1,25 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
 export default function Home() {
-  
-
-  // State for loading spinner visibility
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    // Set the loading state to false after 2 seconds (animation delay)
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000) // 2 seconds delay
-
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
     <main>
       {/* Hero Section */}
@@ -27,19 +13,13 @@ export default function Home() {
         <div className="container">
           <div className="hero-content">
             <div className="containers">
-              {/* Show spinner before animation */}
-              {isLoading ? (
-                <div className="spinner"></div>
-              ) : (
-                <>
-                  <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
-                  <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
-                  <Image id="part3" className="part" src="/logo/and2.png" alt="&" width={800} height={600} priority={true} />
-                  <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
-                  <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
-                  <Image id="part6" className="part" src="/logo/text2.png" alt="text" width={800} height={600} priority={true} />
-                </>
-              )}
+              {/* Directly display images without loading logic */}
+              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
+              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
+              <Image id="part3" className="part" src="/logo/and2.png" alt="&" width={800} height={600} priority={true} />
+              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
+              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
+              <Image id="part6" className="part" src="/logo/text2.png" alt="text" width={800} height={600} priority={true} />
             </div>
             <div className={`hero-cta`}>
               <Link href="#features" className="btn btn-primary btn-lg">
@@ -194,4 +174,3 @@ export default function Home() {
     </main>
   )
 }
-
