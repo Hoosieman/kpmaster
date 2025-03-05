@@ -1,5 +1,5 @@
 :root {
-  --primary: #8b2323;
+  --primary: rgb(153, 14, 0);
   --primary-dark: #6b1b1b;
   --secondary: #1a1a1a;
   --secondary-dark: #000000;
@@ -99,7 +99,9 @@ p {
 
 .section {
   padding: 5rem 0;
-  contain: content; /* Added for scroll performance */
+  contain: content;
+  background-color: rgb(26, 26, 26);
+  color: white; /* Added for scroll performance */
 }
 
 .section-sm {
@@ -107,7 +109,19 @@ p {
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero2.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: scroll; /* Changed from fixed to scroll */
+  background-attachment: scroll; /* Changed from fixed to scroll */ /* Add blur effect to the background */
+}
+
+.section-sm::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit; /* Inherit background from the parent */
+  filter: blur(5px); /* Apply blur to the background */
+  z-index: -1; /* Place the blurred background behind the content */
 }
 
 @media (min-width: 992px) {
@@ -130,6 +144,7 @@ p {
   margin-bottom: 1rem;
   position: relative;
   display: inline-block;
+  color: white;
 }
 
 .section-title::after {
@@ -227,7 +242,7 @@ p {
 
 /* Header & Navigation */
 .header {
-  background-color: var(--light);
+  background-color: black;
   box-shadow: var(--shadow);
   position: sticky;
   top: 0;
@@ -262,7 +277,7 @@ p {
 
 .nav-link {
   font-weight: 500;
-  color: var(--gray-800);
+  color: white;
   position: relative;
   padding: 0.5rem 0;
   display: flex;
@@ -562,7 +577,7 @@ p {
 
 /* Features Section */
 .features {
-  background-color: var(--gray-100);
+  background-color: rgb(26, 26, 26);
   margin-bottom: -10px;
   contain: content; /* Added for scroll performance */
 }
@@ -623,7 +638,7 @@ p {
 .feature-title {
   font-size: 1.5rem;
   margin-bottom: 1rem;
-  color: var(--secondary);
+  color: var(--primary);
 }
 
 /* About Section */
@@ -640,6 +655,7 @@ p {
   padding: 4rem 2rem;
   border-radius: 60px;
 }
+
 
 @media (min-width: 992px) {
   .about-content {
@@ -905,6 +921,7 @@ p {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   justify-content: center;
+  color: white;
 }
 
 /* Make the map container responsive */
@@ -1192,6 +1209,7 @@ textarea.form-control {
 
   .section-title {
     font-size: 2rem;
+    color: white;
   }
 
   .hero-title {
@@ -1228,17 +1246,20 @@ textarea.form-control {
 
   .nav-item {
     width: 100%;
+    color: white;
   }
 
   .nav-link {
     display: block;
     padding: 1rem 0;
     border-bottom: 1px solid var(--gray-200);
+    
   }
 
   .nav-cta {
     margin: 1.5rem 0 0;
     width: 100%;
+    
   }
 
   .nav-cta .btn {
@@ -1288,6 +1309,7 @@ textarea.form-control {
   opacity: 0;
   animation: fadeIn 1.5s ease-out forwards;
   will-change: opacity;
+  background-color: rgb(26, 26, 26);
 }
 
 

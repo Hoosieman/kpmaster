@@ -156,7 +156,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="section features">
+      <section id="features" className="section-sm features">
         <div className="container">
           <div className="text-center">
             <h2 className="section-title">Why Choose Us</h2>
@@ -191,7 +191,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section className="section" style={{ backgroundColor: "var(--gray-100)" }}>
+      <section className="section-sm" style={{ backgroundColor: "rgb(26, 26, 26)" }}>
         <div className="container">
           <div className="text-center">
             <h2 className="section-title">Our Services</h2>
