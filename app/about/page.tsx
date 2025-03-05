@@ -45,6 +45,21 @@ export default function About() {
           </div>
         </div>
       </section>
+
+
+
+      {/* CTA Section - UNCHANGED */}
+      <section className="section-sm cta">
+        <div className="container">
+          <h2 className="cta-title">Need help selecting the right equipment?</h2>
+          <p className="cta-text">
+            Our team of experts is ready to assist you in finding the perfect solution for your specific requirements.
+          </p>
+          <Link href="/contact" className="btn btn-lg" style={{ backgroundColor: "white", color: "var(--primary)" }}>
+            Contact Our Team
+          </Link>
+        </div>
+      </section>
     </main>
   )
 }

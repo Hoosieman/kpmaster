@@ -446,27 +446,27 @@ p {
 
 /* Delay for each part to appear one after another with different effects */
 #part1 {
-  animation-delay: 0s, 0s;
+  animation-delay: 1s, 1s;
   animation-name: fadeIn, scaleUp;
 }
 #part2 {
-  animation-delay: 0.25s, 0.25s;
+  animation-delay: 1.25s, 1.25s;
   animation-name: fadeIn, scaleUp;
 }
 #part3 {
-  animation-delay: 0.75s, 0.75s;
+  animation-delay: 1.75s, 1.75s;
   animation-name: fadeIn;
 }
 #part4 {
-  animation-delay: 1s, 1s;
+  animation-delay: 2s, 2s;
   animation-name: slideFromRight;
 }
 #part5 {
-  animation-delay: 1.5s, 1.5s;
+  animation-delay: 2.5s, 2.5s;
   animation-name: fadeIn, scaleUp;
 }
 #part6 {
-  animation-delay: 2s, 2s;
+  animation-delay: 3s, 3s;
   animation-name: fadeIn, scaleUp;
 }
 
