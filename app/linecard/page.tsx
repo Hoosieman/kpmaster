@@ -20,6 +20,30 @@ export default function LineCard() {
   // Scroll position variable
   const [scrollYPosition, setScrollYPosition] = useState(0)
 
+  // Effect to restore state when returning from external links
+  useEffect(() => {
+    // Check if we're returning from an external link
+    const savedScrollPosition = sessionStorage.getItem("scrollPosition")
+    const savedManufacturer = sessionStorage.getItem("selectedManufacturer")
+
+    if (savedScrollPosition && savedManufacturer) {
+      // Restore the scroll position
+      window.scrollTo(0, Number.parseInt(savedScrollPosition))
+
+      // If a modal was open, reopen it
+      if (savedManufacturer && savedManufacturer !== "") {
+        setSelectedManufacturer(savedManufacturer)
+        setModalContent(manufacturerData[savedManufacturer].products)
+        setIsModalOpen(true)
+        setScrollYPosition(Number.parseInt(savedScrollPosition))
+      }
+
+      // Clear the stored data
+      sessionStorage.removeItem("scrollPosition")
+      sessionStorage.removeItem("selectedManufacturer")
+    }
+  }, [])
+
   // Manufacturer product data with descriptions and URLs
   const manufacturerData: Record<string, { products: ProductItem[]; description: string }> = {
     Sweco: {
@@ -137,24 +161,8 @@ export default function LineCard() {
           <div className="hero-content">
             <div className="containers">
               {/* Directly show images without loading screen */}
-              <Image
-                id="part1"
-                className="part"
-                src="/logo/K1.png"
-                alt="K"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image
-                id="part2"
-                className="part"
-                src="/logo/K2.png"
-                alt="K"
-                width={800}
-                height={600}
-                priority={true}
-              />
+              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
+              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
               <Image
                 id="part3"
                 className="part"
@@ -164,24 +172,8 @@ export default function LineCard() {
                 height={600}
                 priority={true}
               />
-              <Image
-                id="part4"
-                className="part"
-                src="/logo/PP1.png"
-                alt="P"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image
-                id="part5"
-                className="part"
-                src="/logo/PP2.png"
-                alt="P"
-                width={800}
-                height={600}
-                priority={true}
-              />
+              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
+              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
               <div
                 id="part6"
                 className="part" // Apply the bold font class here
@@ -327,6 +319,11 @@ export default function LineCard() {
                       }}
                       onMouseOver={(e) => (e.currentTarget.style.textDecoration = "underline")}
                       onMouseOut={(e) => (e.currentTarget.style.textDecoration = "none")}
+                      onClick={(e) => {
+                        // Store the current state in sessionStorage before navigating away
+                        sessionStorage.setItem("scrollPosition", scrollYPosition.toString())
+                        sessionStorage.setItem("selectedManufacturer", selectedManufacturer || "")
+                      }}
                     >
                       {product.name}
                     </a>
