@@ -155,32 +155,17 @@ export default function LineCard() {
           <div className="hero-content">
             <div className="containers">
               {/* Directly show images without loading screen */}
-              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
-              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
-              <Image
-                id="part3"
-                className="part"
-                src="/logo/and2.png"
-                alt="&"
-                width={800}
-                height={600}
-                priority={true}
-              />
-              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
-              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
-              <div
-                id="part6"
-                className="part" // Apply the bold font class here
-                style={{
-                  fontSize: "55px",
-                  textAlign: "center",
-                  color: "white",
-                  padding: "250px",
-                }}
-              >
-                <p>LINE CARD</p>
-              </div>
+              <Image id="part1" className="part" src="/images/kpwhite.png" alt="K" width={800} height={600} priority={true} />
+              
             </div>
+
+            <div className="text-center">
+            <h2 className="section-title">LINE CARD</h2>
+            <p className="section-subtitle"></p>
+          </div>
+            
+            
+
           </div>
         </div>
         <Link
@@ -203,6 +188,7 @@ export default function LineCard() {
         <div className="container">
           <div className="manufacturer-category">
             <h2 className="section-title">Manufacturers</h2>
+            <p> </p>
             <div className="manufacturer-grid">
               {Object.keys(manufacturerData).map((manufacturer) => (
                 <div className="manufacturer-item" key={manufacturer}>

@@ -167,6 +167,7 @@ p {
   position: relative;
   display: inline-block;
   color: white;
+  justify-content: center;
 }
 
 .section-title::after {
@@ -716,8 +717,10 @@ p {
 }
 
 .about-text p {
+  font-size: large;
   margin-bottom: 1.5rem;
   color: #e0e0e0;
+  text-align: center;
 }
 
 .about-stats {
