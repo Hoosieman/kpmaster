@@ -14,12 +14,9 @@ export default function Home() {
           <div className="hero-content">
             <div className="containers">
               {/* Directly display images without loading logic */}
-              <Image id="part1" className="part" src="/logo/K1.png" alt="K" width={800} height={600} priority={true} />
-              <Image id="part2" className="part" src="/logo/K2.png" alt="K" width={800} height={600} priority={true} />
-              <Image id="part3" className="part" src="/logo/and2.png" alt="&" width={800} height={600} priority={true} />
-              <Image id="part4" className="part" src="/logo/PP1.png" alt="P" width={800} height={600} priority={true} />
-              <Image id="part5" className="part" src="/logo/PP2.png" alt="P" width={800} height={600} priority={true} />
-              <Image id="part6" className="part" src="/logo/text2.png" alt="text" width={800} height={600} priority={true} />
+              <Image id="part1" className="part" src="/logo/k.png" alt="K" width={800} height={600} priority={true} />
+              <Image id="part2" className="part" src="/logo/p.png" alt="P" width={800} height={600} priority={true} />
+              <Image id="part3" className="part" src="/logo/text.png" alt="text" width={800} height={600} priority={true} />
             </div>
             <div className={`hero-cta`}>
               <Link href="#features" className="btn btn-primary btn-lg">

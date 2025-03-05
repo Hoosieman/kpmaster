@@ -474,18 +474,6 @@ p {
   animation-delay: 1s;
   animation-name: fadeIn;
 }
-#part4 {
-  animation-delay: 1.5s;
-  animation-name: slideFromRight;
-}
-#part5 {
-  animation-delay: 2s;
-  animation-name: fadeIn;
-}
-#part6 {
-  animation-delay: 2.5s;
-  animation-name: fadeIn;
-}
 
 .hero-cta {
   display: flex;
