@@ -28,9 +28,7 @@ export default function About() {
                   <div className="stat-label">Projects Completed</div>
                 </div>
       
-                <Link href="contact" className="btn btn-primary btn-lg" style={{ marginTop: "2rem", alignContent: "center"}}>
-                Contact Us
-              </Link>
+                
               </div>
               
             </div>
