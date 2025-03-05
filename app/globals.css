@@ -420,13 +420,16 @@ p {
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  animation: fadeIn 1s forwards, scaleUp 1s ease-out forwards;
+  animation: fadeIn 1s forwards;
   will-change: transform, opacity; /* Added for performance */
   backface-visibility: hidden; /* Added for performance */
 }
 
-/* Fade-in animation */
+/* Animation definitions */
 @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
   to {
     opacity: 1;
   }
