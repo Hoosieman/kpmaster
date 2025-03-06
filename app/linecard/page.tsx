@@ -5,10 +5,11 @@ import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
-// Define a type for product items with URLs
+// Define a type for product items with URLs and images
 type ProductItem = {
   name: string
   url: string
+  image?: string
 }
 
 export default function LineCard() {
@@ -16,6 +17,7 @@ export default function LineCard() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalContent, setModalContent] = useState<ProductItem[] | null>(null)
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null)
+  const [currentSlide, setCurrentSlide] = useState(0) // Added state for carousel navigation
 
   // Scroll position variable
   const [scrollYPosition, setScrollYPosition] = useState(0)
@@ -48,75 +50,138 @@ export default function LineCard() {
   const manufacturerData: Record<string, { products: ProductItem[]; description: string }> = {
     Sweco: {
       products: [
-        { name: "Product 1", url: "https://www.sweco.com/product1" },
-        { name: "Product 2", url: "https://www.sweco.com/product2" },
+        { name: "Round Seperators", url: "https://sweco.com/separation/screener-round-separator.php", image: "/products/roundseperator.png" },
+        { name: "Sifters", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php", image: "/products/sifter.png" },
+        { name: "Rectangular Seperators", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php", image: "/products/rectseperator.png" },
       ],
-      description: "Screening Equipment",
+      description: "Seperation Equipment",
     },
     aaf: {
       products: [
-        { name: "Wet Dust Collectors", url: "https://info.aafintl.com/dust-collection-solutions#B" },
-        { name: "Dry Dust Colletors", url: "https://info.aafintl.com/dust-collection-solutions#A" },
-        { name: "Oil Mist Collectors", url: "https://info.aafintl.com/dust-collection-solutions#C" },
+        {
+          name: "Wet Collectors",
+          url: "https://info.aafintl.com/dust-collection-solutions#B",
+          image: "/products/wetcollector.png",
+        },
+        {
+          name: "Dry Colletors",
+          url: "https://info.aafintl.com/dust-collection-solutions#A",
+          image: "/products/drycollector.png",
+        },
+        {
+          name: "Bag Collectors",
+          url: "https://info.aafintl.com/dust-collection-solutions",
+          image: "/products/bagcollector.png",
+        },
+        {
+          name: "Oil Collectors",
+          url: "https://info.aafintl.com/dust-collection-solutions#C",
+          image: "/products/oilcollector.png",
+        },
       ],
       description: "Dust Collectors",
     },
     prater: {
       products: [
-        { name: "Product Red", url: "https://www.prater.com/product-red" },
-        { name: "Product Blue", url: "https://www.prater.com/product-blue" },
+        {
+          name: "Hammer Mills",
+          url: "https://www.praterindustries.com/products/hammermills/",
+          image: "/products/hammer-mill.png",
+        },
+        {
+          name: "Air Classifiers",
+          url: "https://www.praterindustries.com/products/air-classifiers/",
+          image: "/products/air-classifier.png",
+        },
+        {
+          name: "Rotary Air Locks",
+          url: "https://www.praterindustries.com/products/rotary-airlock-valves/",
+          image: "/products/rotary-air-lock.png",
+        },
+        {
+          name: "Lump Breakers",
+          url: "https://www.praterindustries.com/products/lump-breakers/",
+          image: "/products/lump-breaker.png",
+        },
       ],
-      description: "Particle Size Reduction",
+      description: "Particle Management",
     },
     dsi: {
       products: [
-        { name: "Product 1", url: "https://www.dsi.com/product1" },
-        { name: "Product 2", url: "https://www.dsi.com/product2" },
+        { name: "Dry Fog", url: "https://nodust.com/solutions/dry-fog-solutions/", image: "/products/dry-fog.png" },
+        { name: "Wind Fence", url: "https://nodust.com/solutions/wind-fence/", image: "/products/wind-fence.png" },
+        { name: "Water-Spray", url: "https://nodust.com/solutions/nesco-solutions/", image: "/products/water-spray.jpg" },
       ],
-      description: "Industrial Fans",
+      description: "Dust Supression",
     },
     andco: {
       products: [
-        { name: "Product A", url: "https://www.andco.com/producta" },
-        { name: "Product B", url: "https://www.andco.com/productb" },
+        { name: "Eagle Actuator", url: "https://dresserutility.com/project/andco-eagle/", image: "/products/eagle-actuator.png" },
+        { name: "7000 Series", url: "https://dresserutility.com/project/andco-7000-series/", image: "/products/7000-series.png" },
       ],
-      description: "Vibration Systems",
+      description: "Electric Actuators",
     },
     bulkpro: {
       products: [
-        { name: "Product 3", url: "https://www.bulkpro.com/product3" },
-        { name: "Product 4", url: "https://www.bulkpro.com/product4" },
+        { name: "Conveyor Switches", url: "https://bulkprosystems.com/our-products/conveyor-switches/", image: "/products/conveyor-switch.png" },
+        { name: "Point Level Detection", url: "https://bulkprosystems.com/our-products/point-level-detection/", image: "/products/point-level-detection.png" },
+        { name: "Speed Switches", url: "https://bulkprosystems.com/our-products/speed-switches/", image: "/products/speed-switches.png" },
       ],
-      description: "Bulk Handling",
+      description: "Conveyor Protection",
     },
     bunting: {
       products: [
-        { name: "Product X", url: "https://www.bunting.com/productx" },
-        { name: "Product Y", url: "https://www.bunting.com/producty" },
-        { name: "Product Z", url: "https://www.bunting.com/productz" },
+        { name: "Magnetic Seperation", url: "https://buntingmagnetics.com/", image: "/products/magnetic-seperator.png" },
       ],
-      description: "Magnets & Separation",
+      description: "Magnetic Separation",
     },
     formpak: {
       products: [
-        { name: "Product Alpha", url: "https://www.formpak.com/productalpha" },
-        { name: "Product Beta", url: "https://www.formpak.com/productbeta" },
+        {
+          name: "Bulk Bag Unloaders",
+          url: "https://formpakinc.com/product-category/bulk-bag-unloaders/",
+          image: "/products/bulk-bag-unloader.png",
+        },
+        {
+          name: "Bulk Bag Fillers",
+          url: "https://formpakinc.com/product-category/bulk-bag-fillers/",
+          image: "/products/bulk-bag-filler.png",
+        },
+        {
+          name: "Flexible Screw Conveyors",
+          url: "https://formpakinc.com/product-category/flexible-screw-conveyors/",
+          image: "/products/flexible-screw-conveyor.png",
+        },
       ],
-      description: "Bagging Systems",
+      description: "Bulk Bag Handling",
     },
     kinematics: {
       products: [
-        { name: "Product 101", url: "https://www.kinematics.com/product101" },
-        { name: "Product 102", url: "https://www.kinematics.com/product102" },
+        {
+          name: "Vibratory Conveyors",
+          url: "https://www.generalkinematics.com/vibratory-conveyors/",
+          image: "/products/vibratory-conveyor.png",
+        },
+        {
+          name: "Vibratory Cooling & Drying",
+          url: "https://www.generalkinematics.com/cooling-and-drying/",
+          image: "/products/vibratory-dryer.png",
+        },
+        {
+          name: "Vibratory Grinding",
+          url: "https://www.kinematics.com/product102",
+          image: "/products/vibratory-grinder.png",
+        },
       ],
-      description: "Conveyors & Equipment",
+      description: "Vibratory Equipment",
     },
     orthman: {
       products: [
-        { name: "Product A", url: "https://www.orthman.com/producta" },
-        { name: "Product B", url: "https://www.orthman.com/productb" },
+        { name: "Screw Conveyor", url: "https://orthmanconveying.com/conveying/screw-conveyors/", image: "/products/screw-conveyor.png" },
+        { name: "Bucket Elevator", url: "https://orthmanconveying.com/conveying/bucket-elevators/", image: "/products/bucket-elevator.png" },
+        { name: "Belt Conveyor", url: "https://orthmanconveying.com/conveying/belt-conveyors/", image: "/products/belt-conveyor.png" },
       ],
-      description: "Agricultural Equipment",
+      description: "Conveying",
     },
   }
 
@@ -128,6 +193,7 @@ export default function LineCard() {
     setModalContent(manufacturerData[manufacturer].products)
     setSelectedManufacturer(manufacturer)
     setIsModalOpen(true)
+    setCurrentSlide(0) // Reset to first slide when opening modal
 
     // Instead of changing body position, we'll use overflow: hidden
     // This prevents scrolling without changing the scroll position
@@ -155,17 +221,21 @@ export default function LineCard() {
           <div className="hero-content">
             <div className="containers">
               {/* Directly show images without loading screen */}
-              <Image id="part1" className="part" src="/images/kpwhite.png" alt="K" width={800} height={600} priority={true} />
-              
+              <Image
+                id="part1"
+                className="part"
+                src="/images/kpwhite.png"
+                alt="K"
+                width={800}
+                height={600}
+                priority={true}
+              />
             </div>
 
             <div className="text-center">
-            <h2 className="section-title">LINE CARD</h2>
-            <p className="section-subtitle"></p>
-          </div>
-            
-            
-
+              <h2 className="section-title">LINE CARD</h2>
+              <p className="section-subtitle"></p>
+            </div>
           </div>
         </div>
         <Link
@@ -245,7 +315,7 @@ export default function LineCard() {
         </div>
       </section>
 
-      {/* Modal Section - Updated with clickable links */}
+      {/* Modal Section - Updated with carousel */}
       {isModalOpen && (
         <div
           className="modal-overlay"
@@ -270,11 +340,11 @@ export default function LineCard() {
               backgroundColor: "white",
               padding: "2rem",
               borderRadius: "0.5rem",
-              maxWidth: "500px",
+              maxWidth: "600px",
               width: "90%",
               maxHeight: "80vh",
-              overflow: "auto",
-              textAlign: "center", // Added textAlign: "center"
+              overflow: "hidden",
+              textAlign: "center",
             }}
           >
             <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
@@ -282,33 +352,150 @@ export default function LineCard() {
             </h2>
 
             {Array.isArray(modalContent) && modalContent.length > 0 ? (
-              <ul style={{ listStyleType: "none", padding: 0, textAlign: "center" }}>
-                {modalContent.map((product, index) => (
-                  <li key={index} style={{ margin: "10px 0" }}>
-                    <a
-                      href={product.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        color: "var(--primary, #0070f3)",
-                        textDecoration: "none",
-                        fontWeight: "500",
-                        display: "inline-block",
-                        padding: "8px 0",
-                      }}
-                      onMouseOver={(e) => (e.currentTarget.style.textDecoration = "underline")}
-                      onMouseOut={(e) => (e.currentTarget.style.textDecoration = "none")}
+              <div style={{ position: "relative" }}>
+                {/* Carousel container */}
+                <div style={{ position: "relative", width: "100%", height: "250px", overflow: "hidden" }}>
+                  {/* Left arrow */}
+                  {modalContent.length > 1 && (
+                    <button
                       onClick={(e) => {
-                        // Store the current state in sessionStorage before navigating away
-                        sessionStorage.setItem("scrollPosition", scrollYPosition.toString())
-                        sessionStorage.setItem("selectedManufacturer", selectedManufacturer || "")
+                        e.preventDefault()
+                        setCurrentSlide((prev) => (prev === 0 ? modalContent.length - 1 : prev - 1))
+                      }}
+                      style={{
+                        position: "absolute",
+                        left: "0",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 10,
+                        background: "rgba(0, 0, 0, 0.5)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
                       }}
                     >
-                      {product.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+                      &#10094;
+                    </button>
+                  )}
+
+                  {/* Carousel slides */}
+                  <div
+                    style={{
+                      display: "flex",
+                      transition: "transform 0.3s ease",
+                      transform: `translateX(-${currentSlide * 100}%)`,
+                      height: "100%",
+                      width: "100%",
+                      position: "relative",
+                    }}
+                  >
+                    {modalContent.map((product, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          padding: "0 20px",
+                          position: "absolute",
+                          left: `${index * 100}%`,
+                          top: 0,
+                        }}
+                      >
+                        <div style={{ width: "100%", height: "150px", marginBottom: "15px", position: "relative" }}>
+                          <Image
+                            src={product.image || "/placeholder.svg?height=150&width=200"}
+                            alt={product.name}
+                            fill
+                            style={{ objectFit: "contain" }}
+                          />
+                        </div>
+                        <a
+                          href={product.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            color: "var(--primary, #0070f3)",
+                            textDecoration: "none",
+                            fontWeight: "500",
+                            display: "inline-block",
+                            padding: "8px 0",
+                          }}
+                          onMouseOver={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                          onMouseOut={(e) => (e.currentTarget.style.textDecoration = "none")}
+                          onClick={(e) => {
+                            // Store the current state in sessionStorage before navigating away
+                            sessionStorage.setItem("scrollPosition", scrollYPosition.toString())
+                            sessionStorage.setItem("selectedManufacturer", selectedManufacturer || "")
+                          }}
+                        >
+                          {product.name}
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Right arrow */}
+                  {modalContent.length > 1 && (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setCurrentSlide((prev) => (prev === modalContent.length - 1 ? 0 : prev + 1))
+                      }}
+                      style={{
+                        position: "absolute",
+                        right: "0",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        zIndex: 10,
+                        background: "rgba(0, 0, 0, 0.5)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: "40px",
+                        height: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                      }}
+                    >
+                      &#10095;
+                    </button>
+                  )}
+                </div>
+
+                {/* Dots indicator */}
+                {modalContent.length > 1 && (
+                  <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+                    {modalContent.map((_, index) => (
+                      <span
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        style={{
+                          cursor: "pointer",
+                          height: "10px",
+                          width: "10px",
+                          margin: "0 5px",
+                          backgroundColor: currentSlide === index ? "var(--primary, #0070f3)" : "#bbb",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          transition: "background-color 0.3s ease",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             ) : (
               <p>No products available</p>
             )}
