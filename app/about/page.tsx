@@ -34,7 +34,7 @@ export default function About() {
             </div>
             <div className="about-image">
               <Image
-                src="/stock/lab.jpeg"
+                src="/stock/lab.PNG"
                 alt="Industrial Equipment"
                 width={600}
                 height={400}
