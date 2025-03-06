@@ -49,7 +49,7 @@ export default function Footer() {
             <ul>
               <li>
                 <i className="fas fa-map-marker-alt"></i>
-                <span>8841 South Redwood Road, Suite A1, West Jordan, UT 84088</span>
+                <span>8841 South Redwood Road, Suite A1 <br></br>West Jordan, UT 84088</span>
               </li>
               <li>
                 <i className="fas fa-phone"></i>

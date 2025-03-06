@@ -119,6 +119,20 @@ p {
   padding: 0 2rem;
 }
 
+.man-container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.header-container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
 .section {
   padding: 5rem 0;
   contain: content;
@@ -815,7 +829,8 @@ p {
 /* Manufacturer Section */
 .manufacturer-section {
   padding: 5rem 0;
-  contain: content; /* Added for scroll performance */
+  contain: content;
+  background-color: rgb(26, 26, 26); /* Added for scroll performance */
 }
 
 .manufacturer-category {
@@ -826,9 +841,30 @@ p {
 
 .manufacturer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(5, 1fr); /* Set to 5 equal-width columns */
   gap: 2rem;
   contain: content; /* Added for scroll performance */
+}
+
+
+@media (max-width: 1200px) {
+  .manufacturer-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columns on smaller screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .manufacturer-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 columns on even smaller screens */
+  }
+}
+
+
+
+@media (max-width: 600px) {
+  .manufacturer-grid {
+    grid-template-columns: 1fr; /* 1 column on mobile screens */
+  }
 }
 
 .manufacturer-item {

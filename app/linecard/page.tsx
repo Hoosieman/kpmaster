@@ -255,7 +255,7 @@ export default function LineCard() {
 
       {/* Manufacturers Section */}
       <section id="features" className="manufacturer-section">
-        <div className="container">
+        <div className="man-container">
           <div className="manufacturer-category">
             <p> </p>
             <h2 className="section-title">Manufacturers</h2>
