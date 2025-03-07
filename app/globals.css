@@ -509,11 +509,13 @@ p {
 }
 
 .hero-cta {
+  margin-top: 2rem;
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-top: 2rem;
+  transition: opacity 0.5s ease-in-out;
 }
+
 
 .scroll-down {
   position: absolute;
@@ -1480,3 +1482,79 @@ textarea.form-control {
 }
 
 
+
+
+/* Add these animation styles to your globals.css file */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+/* Add these to your existing styles */
+.containers {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hero-cta {
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Add styles for the modal container to properly replace the logo */
+.modal-container {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Adjust the hero section to maintain height when logo fades out */
+.hero-content {
+  min-height: 300px;
+  position: relative;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+/* Make sure the containers div maintains its space when faded out */
+.containers.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s, height 0.5s ease-in-out;
+}
