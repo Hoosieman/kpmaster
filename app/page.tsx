@@ -56,7 +56,7 @@ export default function Home() {
   // Sample product data - replace with your actual data
   const products = [
     { name: "Round Separator", image: "/products/roundseperator.png", url: "https://sweco.com/separation/screener-round-separator.php" },
-    { name: "Gratory Sifter", image: "/products/sifter.png", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php" },
+    { name: "Gyratory Sifter", image: "/products/sifter.png", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php" },
     { name: "Dry Collectors", image: "/products/drycollector.png", url: "https://info.aafintl.com/dust-collection-solutions#A" },
     { name: "Wet Collectors", image: "/products/rotoclone.png", url: "https://info.aafintl.com/dust-collection-solutions#B" },
     { name: "Hammer Mill", image: "/products/hammer-mill.png", url: "https://www.praterindustries.com/products/hammermills/" },
