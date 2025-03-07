@@ -12,8 +12,7 @@ export default function Footer() {
               <Image src="/images/kpmain.png" alt="K&P Sales Engineers Logo" width={50} height={50} />
             </Link>
             <p className="footer-text">
-              K&P Sales Engineers provides innovative industrial solutions for mining, power generation, chemical
-              processing, and more since 1978.
+            K&P Sales Engineers Utah has provided innovative solutions for our customers for nearly 50 years. Give us a call to discuss your application or to schedule a site visit.
             </p>
             <div className="footer-social">
               <Link href="#" className="social-link">
@@ -63,7 +62,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; {new Date().getFullYear()} K&P Sales Engineers, Inc. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} K & P Sales Engineers Utah LLC. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

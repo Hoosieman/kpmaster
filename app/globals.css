@@ -291,7 +291,20 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 1920px;
 }
+
+
+/* Add this to your CSS file to override the md:block behavior */
+@media (min-width: 768px) {
+  .hidden.md\:block {
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+}
+
+
+
 
 .logo {
   display: flex;
@@ -1176,6 +1189,7 @@ textarea.form-control {
 .footer-text {
   opacity: 0.8;
   margin-bottom: 1.5rem;
+  margin-right: 1rem;
 }
 
 .footer-social {

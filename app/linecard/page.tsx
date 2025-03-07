@@ -50,11 +50,11 @@ export default function LineCard() {
   const manufacturerData: Record<string, { products: ProductItem[]; description: string }> = {
     Sweco: {
       products: [
-        { name: "Round Seperators", url: "https://sweco.com/separation/screener-round-separator.php", image: "/products/roundseperator.png" },
+        { name: "Round Separators", url: "https://sweco.com/separation/screener-round-separator.php", image: "/products/roundseperator.png" },
         { name: "Sifters", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php", image: "/products/sifter.png" },
-        { name: "Rectangular Seperators", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php", image: "/products/rectseperator.png" },
+        { name: "Rectangular Separators", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php", image: "/products/rectseperator.png" },
       ],
-      description: "Seperation Equipment",
+      description: "Separation Equipment",
     },
     aaf: {
       products: [
@@ -131,7 +131,7 @@ export default function LineCard() {
     },
     bunting: {
       products: [
-        { name: "Magnetic Seperation", url: "https://buntingmagnetics.com/", image: "/products/magnetic-seperator.png" },
+        { name: "Magnetic Separation", url: "https://buntingmagnetics.com/", image: "/products/magnetic-seperator.png" },
       ],
       description: "Magnetic Separation",
     },
