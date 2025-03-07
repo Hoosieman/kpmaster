@@ -103,10 +103,10 @@ export default function Home() {
       // Automatically fade out logo and show modal after a delay
       const timer = setTimeout(() => {
         // Apply fade-out effect to logo
-        const logoContainer = document.querySelector(".containers")
+        const logoContainer = document.querySelector(".containers") as HTMLElement;
         if (logoContainer) {
-          logoContainer.style.opacity = "0"
-          logoContainer.style.transition = "opacity 0.8s ease-in-out"
+          logoContainer.style.opacity = "0";
+          logoContainer.style.transition = "opacity 0.8s ease-in-out";
         }
 
         // After logo fade-out completes, hide it and show modal
