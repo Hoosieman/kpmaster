@@ -414,7 +414,8 @@ p {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero1.jpg");
+  
+  background-color: white;
   background-size: cover;
   background-position: center;
   background-attachment: scroll; /* Changed from fixed to scroll */
@@ -1558,3 +1559,35 @@ textarea.form-control {
   height: 0;
   transition: opacity 0.5s ease-in-out, visibility 0s 0.5s, height 0.5s ease-in-out;
 }
+
+
+
+
+
+
+/* Add this to your CSS file (e.g., styles.css or global.css) */
+@keyframes slideUp {
+  0% {
+    transform: translateY(50px); /* Start below */
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0); /* End at normal position */
+    opacity: 1;
+  }
+}
+
+.hero-logo {
+  animation: slideUp 1s ease-out forwards; /* Adjust the duration and easing as needed */
+}
+
+.hero-logo-hidden {
+  opacity: 0; /* Initially hidden until triggered */
+}
+
+
+
+
+
+
+

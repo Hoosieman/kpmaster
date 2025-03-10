@@ -5,78 +5,48 @@ import Link from "next/link"
 import Image from "next/image"
 import { ChevronDown } from "lucide-react"
 
-// Add these styles for the fade animations
-const styles = {
-  fadeIn: {
-    opacity: 1,
-    transition: "opacity 0.5s ease-in-out",
-  },
-  fadeOut: {
-    opacity: 0,
-    transition: "opacity 0.5s ease-in-out",
-  },
-}
-
-// Add this right after the styles object
-const keyframes = `
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-`
-
-// Add responsive styles
-const responsiveStyles = `
-  @media (max-width: 768px) {
-    .modal-container {
-      width: 95% !important;
-      padding: 0.75rem !important;
-    }
-    
-    .carousel-slide {
-      padding: 0 10px !important;
-    }
-    
-    .carousel-nav-button {
-      width: 30px !important;
-      height: 30px !important;
-    }
-  }
-`
-
 export default function Home() {
-  const [isLogoVisible, setIsLogoVisible] = useState(true)
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [selectedManufacturer, setSelectedManufacturer] = useState("Featured Products")
+  const [animationPhase, setAnimationPhase] = useState("initial") // "initial", "sliding", "carousel"
+  const [selectedManufacturer, setSelectedManufacturer] = useState("")
   const [currentSlide, setCurrentSlide] = useState(0)
   const [scrollYPosition, setScrollYPosition] = useState(0)
-  const [autoScroll, setAutoScroll] = useState(true) // Added autoScroll state
+  const [autoScroll, setAutoScroll] = useState(true)
   const modalRef = useRef<HTMLDivElement>(null)
 
   // Sample product data - replace with your actual data
   const products = [
-    { name: "Round Separator", image: "/products/roundseperator.png", url: "https://sweco.com/separation/screener-round-separator.php" },
-    { name: "Gyratory Sifter", image: "/products/sifter.png", url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php" },
-    { name: "Dry Collectors", image: "/products/drycollector.png", url: "https://info.aafintl.com/dust-collection-solutions#A" },
-    { name: "Wet Collectors", image: "/products/rotoclone.png", url: "https://info.aafintl.com/dust-collection-solutions#B" },
-    { name: "Hammer Mill", image: "/products/hammer-mill.png", url: "https://www.praterindustries.com/products/hammermills/" },
-    { name: "Dry Fog", image: "/products/dry-fog.png", url: "https://nodust.com/solutions/dry-fog-solutions/" },
-    { name: "Point Level Detection", image: "/products/point-level-detection.png", url: "https://bulkprosystems.com/our-products/point-level-detection/" },
+    {
+      name: "Round Separator",
+      image: "/products/roundseperator.png",
+      url: "https://sweco.com/separation/screener-round-separator.php",
+    },
+    {
+      name: "Gyratory Sifter",
+      image: "/products/sifter.png",
+      url: "https://sweco.com/separation/separator-atlas-gyratory-sifter.php",
+    },
+    {
+      name: "Dry Collectors",
+      image: "/products/drycollector.png",
+      url: "https://info.aafintl.com/dust-collection-solutions#A",
+    },
+    {
+      name: "Wet Collectors",
+      image: "/products/rotoclone.png",
+      url: "https://info.aafintl.com/dust-collection-solutions#B",
+    },
+    {
+      name: "Hammer Mill",
+      image: "/products/hammer-mill.png",
+      url: "https://www.praterindustries.com/products/hammermills/",
+    },
+
+    {
+      name: "Point Level Detection",
+      image: "/products/point-level-detection.png",
+      url: "https://bulkprosystems.com/our-products/point-level-detection/",
+    },
   ]
-
-  // Function to close modal and scroll to features
-  const closeModal = () => {
-    setIsModalVisible(false)
-    setTimeout(() => {
-      setIsLogoVisible(true)
-    }, 300)
-
-    // Navigate to features section
-    document.querySelector("#features")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    })
-  }
 
   // Track scroll position
   useEffect(() => {
@@ -88,37 +58,29 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Initialize the logo-to-modal transition
+  // Initialize the logo animation and transition to carousel
   useEffect(() => {
     const storedManufacturer = sessionStorage.getItem("selectedManufacturer")
     const storedScrollPosition = sessionStorage.getItem("scrollPosition")
 
     if (storedManufacturer) {
       setSelectedManufacturer(storedManufacturer)
-      setIsLogoVisible(false)
-      setTimeout(() => {
-        setIsModalVisible(true)
-      }, 500)
+      setAnimationPhase("carousel")
     } else {
-      // Automatically fade out logo and show modal after a delay
-      const timer = setTimeout(() => {
-        // Apply fade-out effect to logo
-        const logoContainer = document.querySelector(".containers") as HTMLElement;
-        if (logoContainer) {
-          logoContainer.style.opacity = "0";
-          logoContainer.style.transition = "opacity 0.8s ease-in-out";
-        }
+      // Start the animation sequence
+      const initialTimer = setTimeout(() => {
+        // Start sliding up animation
+        setAnimationPhase("sliding")
 
-        // After logo fade-out completes, hide it and show modal
-        setTimeout(() => {
-          setIsLogoVisible(false)
-          setTimeout(() => {
-            setIsModalVisible(true)
-          }, 100)
+        // After sliding animation completes, show carousel
+        const carouselTimer = setTimeout(() => {
+          setAnimationPhase("carousel")
         }, 800) // Match this with the transition duration
-      }, 2000) // Increased from 2000 to 4000 (4 seconds) before starting the transition
 
-      return () => clearTimeout(timer)
+        return () => clearTimeout(carouselTimer)
+      }, 2000) // Time before starting the slide-up animation
+
+      return () => clearTimeout(initialTimer)
     }
 
     if (storedScrollPosition) {
@@ -133,262 +95,250 @@ export default function Home() {
   useEffect(() => {
     let interval: NodeJS.Timeout
 
-    if (autoScroll && products.length > 1) {
+    if (autoScroll && products.length > 1 && animationPhase === "carousel") {
       interval = setInterval(() => {
         setCurrentSlide((prev) => (prev === products.length - 1 ? 0 : prev + 1))
-      }, 3000) // Change slide every 3 seconds
+      }, 4000) // Change slide every 3 seconds
     }
 
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [autoScroll, products.length])
+  }, [autoScroll, products.length, animationPhase])
 
   return (
     <>
       <style jsx global>{`
-      ${keyframes}
-      ${responsiveStyles}
-    `}</style>
+        @media (max-width: 768px) {
+          .modal-container {
+            width: 95% !important;
+            padding: 0.75rem !important;
+            
+          }
+
+          .carousel-slide {
+            padding: 0 10px !important;
+          }
+
+          .carousel-nav-button {
+            width: 30px !important;
+            height: 30px !important;
+          }
+        }
+
+      
+        .hero-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          min-height: 80vh;
+        }
+
+        .containers {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          transition: transform 0.8s ease-out, scale 0.8s ease-out;
+          margin-bottom: 2rem;
+        }
+
+        .sliding .containers {
+          transform: translateY(-120vh);
+          scale: 0.4;
+        }
+
+        .carousel .containers {
+          transform: translateY(-10vh);
+          scale: 0.4;
+          position: absolute;
+          top: 0;
+          z-index: 10;
+        
+        }
+
+        .modal-container {
+          margin-top: 0;
+          opacity: 0;
+          transition: opacity 0.5s ease-in;
+          display: none;
+        }
+
+        .carousel .modal-container {
+          opacity: 1;
+          display: block;
+        }
+
+        .scroll-down {
+          opacity: 0;
+          transition: opacity 0.5s ease-in;
+        }
+
+        .carousel .scroll-down {
+          opacity: 1;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      `}</style>
       <main>
         {/* Hero Section */}
-        <section className="hero hero-loaded" style={{ position: "relative" }}>
+        <section className={`hero hero-loaded ${animationPhase}`} style={{ position: "relative" }}>
           <div className="container">
             <div className="hero-content">
               {/* Logo Container */}
-              {isLogoVisible && (
-                <div className="containers">
-                  <Image
-                    id="part1"
-                    className="part"
-                    src="/logo/k.png"
-                    alt="K"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part2"
-                    className="part"
-                    src="/logo/p.png"
-                    alt="P"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                  <Image
-                    id="part3"
-                    className="part"
-                    src="/logo/text.png"
-                    alt="text"
-                    width={800}
-                    height={600}
-                    priority={true}
-                  />
-                </div>
-              )}
+              <div className="containers">
+                <Image id="part1" className="part" src="/logo/k.png" alt="K" width={800} height={600} priority={true} />
+                <Image
+                  id="part2"
+                  className="part"
+                  src="/logo/ppp.png"
+                  alt="P"
+                  width={800}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  id="part3"
+                  className="part"
+                  src="/logo/texty.png"
+                  alt="text"
+                  width={800}
+                  height={600}
+                  priority={true}
+                />
+              </div>
 
-              {/* Modal Container */}
-              {isModalVisible && (
+              {/* Modal Container with Carousel */}
+              <div
+                ref={modalRef}
+                className="modal-container"
+                style={{
+                  backgroundColor: "white",
+
+                  padding: "1rem",
+
+                  width: "100%",
+                  maxWidth: "800px",
+                  height: "auto",
+                  maxHeight: "90vh",
+                  margin: "0 auto",
+
+                  overflow: "auto",
+                }}
+              >
+                <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>{selectedManufacturer?.toUpperCase()}</h2>
+
+                {/* Carousel container */}
                 <div
-                  ref={modalRef}
-                  className="modal-container"
                   style={{
-                    backgroundColor: "white",
-                    padding: "1rem",
-                    borderRadius: "0.5rem",
-                    width: "90%", // Changed from 60% to 90% for mobile
-                    maxWidth: "800px", // Added max-width
-                    height: "auto", // Changed from 60% to auto
-                    maxHeight: "80vh", // Added max-height with viewport units
-                    margin: "0 auto",
-                    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
-                    opacity: 0,
-                    animation: "fadeIn 0.5s forwards",
-                    overflow: "auto", // Added overflow handling
+                    position: "relative",
+                    width: "100%",
+                    height: "800px",
+                    minHeight: "300px",
+                    maxHeight: "800px",
+                    overflow: "hidden",
                   }}
+                  onMouseEnter={() => setAutoScroll(false)}
+                  onMouseLeave={() => setAutoScroll(true)}
                 >
-                  <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>{selectedManufacturer?.toUpperCase()}</h2>
-
-                  {/* Carousel container */}
+                  {/* Carousel slides */}
                   <div
                     style={{
-                      position: "relative",
+                      display: "flex",
+                      transition: "transform 0.3s ease",
+                      transform: `translateX(-${currentSlide * 100}%)`,
+                      height: "100%",
                       width: "100%",
-                      height: "450px", // Changed from fixed 450px
-                      minHeight: "300px", // Added minimum height
-                      maxHeight: "450px", // Added maximum height
-                      overflow: "hidden",
+                      position: "relative",
                     }}
-                    onMouseEnter={() => setAutoScroll(false)}
-                    onMouseLeave={() => setAutoScroll(true)} // Added mouse event handlers
                   >
-                    {/* Left arrow */}
-                    {products.length > 1 && (
-                      <button
-                        onClick={() => setCurrentSlide((prev) => (prev === 0 ? products.length - 1 : prev - 1))}
-                        className="carousel-nav-button"
+                    {products.map((product, index) => (
+                      <div
+                        key={index}
+                        className="carousel-slide"
                         style={{
-                          position: "absolute",
-                          left: "0",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          zIndex: 10,
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "50%",
-                          width: "40px",
-                          height: "40px",
+                          width: "100%",
+                          height: "100%",
                           display: "flex",
+                          flexDirection: "column",
                           alignItems: "center",
                           justifyContent: "center",
-                          cursor: "pointer",
+                          padding: "0 20px",
+                          position: "absolute",
+                          left: `${index * 100}%`,
+                          top: 0,
                         }}
                       >
-                        &#10094;
-                      </button>
-                    )}
-
-                    {/* Carousel slides */}
-                    <div
-                      style={{
-                        display: "flex",
-                        transition: "transform 0.3s ease",
-                        transform: `translateX(-${currentSlide * 100}%)`,
-                        height: "100%",
-                        width: "100%",
-                        position: "relative",
-                      }}
-                    >
-                      {products.map((product, index) => (
-                        <div
-                          key={index}
-                          className="carousel-slide"
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            padding: "0 20px",
-                            position: "absolute",
-                            left: `${index * 100}%`,
-                            top: 0,
+                        <a
+                          href={product.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => {
+                            // Store the current state in sessionStorage before navigating away
+                            sessionStorage.setItem("scrollPosition", scrollYPosition.toString())
+                            sessionStorage.setItem("selectedManufacturer", selectedManufacturer)
                           }}
+                          style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}
                         >
-                          <div
+                          <Image
+                            src={product.image || "/placeholder.svg"}
+                            alt={product.name}
+                            width={800}
+                            height={600}
                             style={{
-                              width: "100%",
-                              height: "auto", // Changed from fixed 150px
-                              minHeight: "100px", // Added minimum height
-                              marginBottom: "15px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
+                              objectFit: "contain",
+                              maxWidth:
+                                product.name === "Hammer Mill" || product.name === "Point Level Detection"
+                                  ? "80%"
+                                  : "100%",
                             }}
-                          >
-                            <Image
-                              src={product.image || "/placeholder.svg"}
-                              alt={product.name}
-                              width={400}
-                              height={300}
-                              style={{
-                                objectFit: "contain",
-                                maxWidth: "100%", // Ensure image doesn't overflow
-                                 // Limit image height
-                              }}
-                            />
-                          </div>
-                          <a
-                            href={product.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              color: "var(--primary, #0070f3)",
-                              textDecoration: "none",
-                              fontWeight: "500",
-                              display: "inline-block",
-                              padding: "8px 0",
-                            }}
-                            onMouseOver={(e) => (e.currentTarget.style.textDecoration = "underline")}
-                            onMouseOut={(e) => (e.currentTarget.style.textDecoration = "none")}
-                            onClick={() => {
-                              // Store the current state in sessionStorage before navigating away
-                              sessionStorage.setItem("scrollPosition", scrollYPosition.toString())
-                              sessionStorage.setItem("selectedManufacturer", selectedManufacturer)
-                            }}
-                          >
-                            {product.name}
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Right arrow */}
-                    {products.length > 1 && (
-                      <button
-                        onClick={() => setCurrentSlide((prev) => (prev === products.length - 1 ? 0 : prev + 1))}
-                        className="carousel-nav-button"
-                        style={{
-                          position: "absolute",
-                          right: "0",
-                          top: "50%",
-                          transform: "translateY(-50%)",
-                          zIndex: 10,
-                          background: "rgba(0, 0, 0, 0.5)",
-                          color: "white",
-                          border: "none",
-                          borderRadius: "50%",
-                          width: "40px",
-                          height: "40px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                        }}
-                      >
-                        &#10095;
-                      </button>
-                    )}
+                          />
+                        </a>
+                      </div>
+                    ))}
                   </div>
-
-                  {/* Dots indicator */}
-                  {products.length > 1 && (
-                    <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
-                      {products.map((_, index) => (
-                        <span
-                          key={index}
-                          onClick={() => setCurrentSlide(index)}
-                          style={{
-                            cursor: "pointer",
-                            height: "10px",
-                            width: "10px",
-                            margin: "0 5px",
-                            backgroundColor: currentSlide === index ? "var(--primary, #0070f3)" : "#bbb",
-                            borderRadius: "50%",
-                            display: "inline-block",
-                            transition: "background-color 0.3s ease",
-                          }}
-                        />
-                      ))}
-                    </div>
-                  )}
                 </div>
-              )}
+
+                {/* Dots indicator */}
+                {products.length > 1 && (
+                  <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
+                    {products.map((_, index) => (
+                      <span
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        style={{
+                          cursor: "pointer",
+                          height: "10px",
+                          width: "10px",
+                          margin: "0 5px",
+                          backgroundColor: currentSlide === index ? "var(--primary, #0070f3)" : "#bbb",
+                          borderRadius: "50%",
+                          display: "inline-block",
+                          transition: "background-color 0.3s ease",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <Link
             href="#features"
             className="scroll-down"
             onClick={(e) => {
-              e.preventDefault() // Prevent default anchor behavior
-
-              // Safely handle the possibility of null with optional chaining
+              e.preventDefault()
               document.querySelector("#features")?.scrollIntoView({
                 behavior: "smooth",
-                block: "start", // Align at the top of the viewport
+                block: "start",
               })
             }}
           >
