@@ -293,7 +293,7 @@ export default function Home() {
                               objectFit: "contain",
                               maxWidth:
                                 product.name === "Hammer Mill" || product.name === "Point Level Detection" || product.name === "Wet Collectors"
-                                  ? "80%"
+                                  ? "70%"
                                   : "100%",
                             }}
                           />
