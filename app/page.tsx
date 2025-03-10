@@ -154,7 +154,7 @@ export default function Home() {
         
 
         .carousel .containers {
-          transform: translateY(-5vh);
+          transform: translateY(-10vh);
           scale: 0.4;
           position: absolute;
           top: 0;
