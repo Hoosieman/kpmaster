@@ -144,13 +144,10 @@ export default function Home() {
           margin-bottom: 2rem;
         }
 
-        .sliding .containers {
-          transform: translateY(-120vh);
-          scale: 0.4;
-        }
+        
 
         .carousel .containers {
-          transform: translateY(-20vh);
+          transform: translateY(-10vh);
           scale: 0.3;
           position: absolute;
           top: 0;
@@ -223,6 +220,8 @@ export default function Home() {
                   backgroundColor: "white",
 
                   padding: "1rem",
+                  opacity: 0,
+                  animation: "fadeIn 1.5s ease-in forwards",
 
                   width: "100%",
                   maxWidth: "800px",
@@ -245,8 +244,6 @@ export default function Home() {
                     maxHeight: "800px",
                     overflow: "hidden",
                   }}
-                  onMouseEnter={() => setAutoScroll(false)}
-                  onMouseLeave={() => setAutoScroll(true)}
                 >
                   {/* Carousel slides */}
                   <div
@@ -295,7 +292,7 @@ export default function Home() {
                             style={{
                               objectFit: "contain",
                               maxWidth:
-                                product.name === "Hammer Mill" || product.name === "Point Level Detection"
+                                product.name === "Hammer Mill" || product.name === "Point Level Detection" || product.name === "Wet Collectors"
                                   ? "80%"
                                   : "100%",
                             }}
@@ -305,8 +302,6 @@ export default function Home() {
                     ))}
                   </div>
                 </div>
-
-                
               </div>
             </div>
           </div>

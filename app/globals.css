@@ -422,6 +422,21 @@ p {
   color: var(--light);
 }
 
+.hero2 {
+  position: relative;
+  height: 85vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: scroll; /* Changed from fixed to scroll */
+  color: var(--light);
+}
+
+
 @media (min-width: 992px) {
   .hero {
     background-attachment: fixed; /* Only use fixed on desktop */
@@ -524,7 +539,9 @@ p {
   left: 50%;
   transform: translateX(-50%);
   animation: bounce 2s infinite;
+  color: black;
   cursor: pointer;
+  
 }
 
 @keyframes bounce {

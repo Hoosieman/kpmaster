@@ -216,7 +216,7 @@ export default function LineCard() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="hero">
+      <section className="hero2">
         <div className="container">
           <div className="hero-content">
             <div className="containers">
