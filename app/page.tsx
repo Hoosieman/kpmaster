@@ -161,6 +161,11 @@ export default function Home() {
           z-index: 10;
         }
 
+        /* Add this new CSS rule to hide the text part of the logo when in carousel state */
+        .carousel .containers #part3 {
+          display: none;
+        }
+
         .modal-container {
           margin-top: 60px;
           opacity: 0;
@@ -236,7 +241,7 @@ export default function Home() {
                   overflow: "auto",
                   position: "relative",
                   border: "10px solid white",
-                  borderRadius: "50%",// Ensure modal has positioning context
+                  borderRadius: "50%", // Ensure modal has positioning context
                 }}
               >
                 <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>{selectedManufacturer?.toUpperCase()}</h2>
@@ -250,7 +255,7 @@ export default function Home() {
                     minHeight: "300px",
                     maxHeight: "600px",
                     overflow: "hidden",
-                     // Keep this as hidden for the main container
+                    // Keep this as hidden for the main container
                   }}
                 >
                   {/* Carousel slides */}
