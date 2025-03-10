@@ -154,8 +154,8 @@ export default function Home() {
         
 
         .carousel .containers {
-          transform: translateY(-10vh);
-          scale: 0.3;
+          transform: translateY(-3vh);
+          scale: 0.4;
           position: absolute;
           top: 0;
           z-index: 10;
@@ -246,7 +246,7 @@ export default function Home() {
                     width: "100%",
                     height: "800px",
                     minHeight: "300px",
-                    maxHeight: "800px",
+                    maxHeight: "700px",
                     overflow: "hidden", // Keep this as hidden for the main container
                   }}
                 >

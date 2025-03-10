@@ -142,7 +142,7 @@ p {
 
 .section-sm {
   padding: 4rem 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 1, 2, 0.85)), url("/stock/hero2.jpg");
+  background-color: rgb(26, 26, 26);
   background-size: cover;
   background-position: center;
   background-attachment: scroll; /* Changed from fixed to scroll */ /* Add blur effect to the background */
@@ -416,10 +416,13 @@ p {
   justify-content: center;
   
   background-color: white;
+  
   background-size: cover;
   background-position: center;
   background-attachment: scroll; /* Changed from fixed to scroll */
   color: var(--light);
+  border: 20px solid rgb(153, 14, 0);
+  border-radius: 50%;
 }
 
 .hero2 {
