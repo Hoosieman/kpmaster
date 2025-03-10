@@ -12,6 +12,7 @@ export default function Home() {
   const [scrollYPosition, setScrollYPosition] = useState(0)
   const [autoScroll, setAutoScroll] = useState(true)
   const modalRef = useRef<HTMLDivElement>(null)
+  const heroContentRef = useRef<HTMLDivElement>(null)
 
   // Sample product data - replace with your actual data
   const products = [
@@ -124,6 +125,11 @@ export default function Home() {
             width: 30px !important;
             height: 30px !important;
           }
+          
+          /* Hide preview containers on mobile */
+          .preview-container {
+            display: none !important;
+          }
         }
 
       
@@ -134,6 +140,7 @@ export default function Home() {
           justify-content: center;
           width: 100%;
           min-height: 80vh;
+          position: relative; /* Added to create positioning context */
         }
 
         .containers {
@@ -188,7 +195,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className={`hero hero-loaded ${animationPhase}`} style={{ position: "relative" }}>
           <div className="container">
-            <div className="hero-content">
+            <div className="hero-content" ref={heroContentRef}>
               {/* Logo Container */}
               <div className="containers">
                 <Image id="part1" className="part" src="/logo/k.png" alt="K" width={800} height={600} priority={true} />
@@ -218,18 +225,16 @@ export default function Home() {
                 className="modal-container"
                 style={{
                   backgroundColor: "white",
-
                   padding: "1rem",
                   opacity: 0,
                   animation: "fadeIn 1.5s ease-in forwards",
-
                   width: "100%",
                   maxWidth: "800px",
                   height: "auto",
                   maxHeight: "90vh",
                   margin: "0 auto",
-
                   overflow: "auto",
+                  position: "relative", // Ensure modal has positioning context
                 }}
               >
                 <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>{selectedManufacturer?.toUpperCase()}</h2>
@@ -242,7 +247,7 @@ export default function Home() {
                     height: "800px",
                     minHeight: "300px",
                     maxHeight: "800px",
-                    overflow: "hidden",
+                    overflow: "hidden", // Keep this as hidden for the main container
                   }}
                 >
                   {/* Carousel slides */}
@@ -292,7 +297,9 @@ export default function Home() {
                             style={{
                               objectFit: "contain",
                               maxWidth:
-                                product.name === "Hammer Mill" || product.name === "Point Level Detection" || product.name === "Wet Collectors"
+                                product.name === "Hammer Mill" ||
+                                product.name === "Point Level Detection" ||
+                                product.name === "Wet Collectors"
                                   ? "70%"
                                   : "100%",
                             }}
@@ -303,6 +310,97 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
+              {/* Preview containers - positioned outside the modal */}
+              {products.length > 1 && animationPhase === "carousel" && (
+                <>
+                  {/* Previous item preview */}
+                  <div
+                    className="preview-container"
+                    style={{
+                      position: "absolute",
+                      left: "calc(50% - 650px)", // Updated left position
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "100px",
+                      height: "150px",
+                      zIndex: 20,
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      overflow: "hidden",
+                    }}
+                    onClick={() => {
+                      setAutoScroll(false)
+                      setCurrentSlide(currentSlide === 0 ? products.length - 1 : currentSlide - 1)
+                    }}
+                    onMouseEnter={() => setAutoScroll(false)}
+                    onMouseLeave={() => setAutoScroll(true)}
+                  >
+                    <Image
+                      src={
+                        products[currentSlide === 0 ? products.length - 1 : currentSlide - 1].image ||
+                        "/placeholder.svg"
+                      }
+                      alt="Previous item"
+                      width={100}
+                      height={150}
+                      style={{
+                        objectFit: "contain",
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                      }}
+                    />
+                  </div>
+
+                  {/* Next item preview */}
+                  <div
+                    className="preview-container"
+                    style={{
+                      position: "absolute",
+                      right: "calc(50% - 650px)", // Updated right position
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      width: "100px",
+                      height: "150px",
+                      zIndex: 20,
+                      backgroundColor: "rgba(255, 255, 255, 0.8)",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      overflow: "hidden",
+                    }}
+                    onClick={() => {
+                      setAutoScroll(false)
+                      setCurrentSlide(currentSlide === products.length - 1 ? 0 : currentSlide + 1)
+                    }}
+                    onMouseEnter={() => setAutoScroll(false)}
+                    onMouseLeave={() => setAutoScroll(true)}
+                  >
+                    <Image
+                      src={
+                        products[currentSlide === products.length - 1 ? 0 : currentSlide + 1].image ||
+                        "/placeholder.svg"
+                      }
+                      alt="Next item"
+                      width={100}
+                      height={150}
+                      style={{
+                        objectFit: "contain",
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                      }}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <Link
