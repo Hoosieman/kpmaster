@@ -150,16 +150,15 @@ export default function Home() {
         }
 
         .carousel .containers {
-          transform: translateY(-10vh);
-          scale: 0.4;
+          transform: translateY(-20vh);
+          scale: 0.3;
           position: absolute;
           top: 0;
           z-index: 10;
-        
         }
 
         .modal-container {
-          margin-top: 0;
+          margin-top: 60px;
           opacity: 0;
           transition: opacity 0.5s ease-in;
           display: none;
@@ -307,27 +306,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Dots indicator */}
-                {products.length > 1 && (
-                  <div style={{ display: "flex", justifyContent: "center", marginTop: "15px" }}>
-                    {products.map((_, index) => (
-                      <span
-                        key={index}
-                        onClick={() => setCurrentSlide(index)}
-                        style={{
-                          cursor: "pointer",
-                          height: "10px",
-                          width: "10px",
-                          margin: "0 5px",
-                          backgroundColor: currentSlide === index ? "var(--primary, #0070f3)" : "#bbb",
-                          borderRadius: "50%",
-                          display: "inline-block",
-                          transition: "background-color 0.3s ease",
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
+                
               </div>
             </div>
           </div>
