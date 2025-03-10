@@ -234,7 +234,9 @@ export default function Home() {
                   maxHeight: "90vh",
                   margin: "0 auto",
                   overflow: "auto",
-                  position: "relative", // Ensure modal has positioning context
+                  position: "relative",
+                  border: "10px solid white",
+                  borderRadius: "50%",// Ensure modal has positioning context
                 }}
               >
                 <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>{selectedManufacturer?.toUpperCase()}</h2>
@@ -247,7 +249,8 @@ export default function Home() {
                     height: "800px",
                     minHeight: "300px",
                     maxHeight: "600px",
-                    overflow: "hidden", // Keep this as hidden for the main container
+                    overflow: "hidden",
+                     // Keep this as hidden for the main container
                   }}
                 >
                   {/* Carousel slides */}
