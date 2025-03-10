@@ -246,7 +246,7 @@ export default function Home() {
                     width: "100%",
                     height: "800px",
                     minHeight: "300px",
-                    maxHeight: "700px",
+                    maxHeight: "600px",
                     overflow: "hidden", // Keep this as hidden for the main container
                   }}
                 >
