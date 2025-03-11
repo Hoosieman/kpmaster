@@ -162,8 +162,13 @@ export default function Home() {
         }
 
         /* Add this new CSS rule to hide the text part of the logo when in carousel state */
-        .carousel .containers #part3 {
+        /* .carousel .containers #part3 {
           display: none;
+        } */
+
+        /* Replace it with a rule that keeps the text visible but possibly adjusts its size or position */
+        .carousel .containers #part3 {
+          display: block; /* Ensure it's visible */
         }
 
         .modal-container {
