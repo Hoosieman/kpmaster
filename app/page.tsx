@@ -154,7 +154,7 @@ export default function Home() {
         
 
         .carousel .containers {
-          transform: translateY(-5vh);
+        
           scale: 0.4;
           position: absolute;
           top: 0;
@@ -239,7 +239,7 @@ export default function Home() {
                   opacity: 0,
                   animation: "fadeIn 1.5s ease-in forwards",
                   width: "100%",
-                  maxWidth: "800px",
+                  maxWidth: "700px",
                   height: "auto",
                   maxHeight: "90vh",
                   margin: "0 auto",
