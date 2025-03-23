@@ -21,7 +21,7 @@ export default function ContactForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     emailjs
-      .send("service_m8mto1q", "template_ygsl5hr", formData, "4C2eitDozX3gNkL5H")
+      .send("service_0xsfz0b", "template_ygsl5hr", formData, "4C2eitDozX3gNkL5H")
       .then(
         (result) => {
           console.log("Message sent successfully:", result.text);
